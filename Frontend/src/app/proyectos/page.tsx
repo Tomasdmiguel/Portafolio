@@ -1,9 +1,10 @@
+import Proyects from "@/components/Proyects/Proyects";
 const proyectos = () => {
-    return(
-        <div>
-            <h1>Hola</h1>
-        </div>
-    )
-}
+  return (
+    <main>
+      <Proyects />
+    </main>
+  );
+};
 
-export default proyectos
+export default proyectos;
