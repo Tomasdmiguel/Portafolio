@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Nav from "../components/Nav/Nav"; // Asegúrate de que la ruta sea correcta
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,12 +12,29 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body
+        className={`${inter.className} relative min-h-screen overflow-hidden`}>
+        <video
+          autoPlay
+          loop
+          muted
+          className="absolute inset-0 object-cover w-full h-full -z-10"
+          playsInline>
+          <source src="/videos/fondo1.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        <Nav />
+
+        <main className="relative z-10 flex-grow flex flex-col items-center justify-center p-4 md:p-8">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
