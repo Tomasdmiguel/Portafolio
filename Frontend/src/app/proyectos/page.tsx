@@ -1,9 +1,11 @@
+import Constribuciones from "@/components/Contribuciones/Contribuciones";
 import Proyects from "@/components/Proyects/Proyects";
 const proyectos = () => {
   return (
-    <main>
+    <div>
       <Proyects />
-    </main>
+      <Constribuciones/>
+    </div>
   );
 };
 

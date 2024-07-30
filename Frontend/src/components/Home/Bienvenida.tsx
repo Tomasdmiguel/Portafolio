@@ -6,8 +6,8 @@ import AnimatedTitle from "../AnimatedTitle/AnimatedTitle";
 
 const Bienvenida = () => {
   return (
-    <main className="relative flex flex-col items-center justify-center min-h-screen px-4 py-8 md:px-8 md:py-12">
-      <div className="absolute top-20 md:top-24">
+    <main className="flex flex-col items-center justify-center py-16 px-4">
+      <div className="absolute top-20 mt-34 md:top-24">
        
         <AnimatedTitle/>
       </div>
@@ -22,7 +22,7 @@ const Bienvenida = () => {
         <p className="text-base md:text-lg text-gray-500 mb-8">oteguit31@gmail.com</p>
       </div>
 
-      <div className="flex space-x-6 mb-8">
+      <div className="flex space-x-6 mb-8 mt-9">
         <Link
           href="https://github.com/tu-perfil"
           target="_blank"

@@ -18,14 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} relative min-h-screen overflow-hidden`}>
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <Nav />
-
-        <main >
-          {children}
-        </main>
-        <Footer/>
+        <main className="flex-grow">{children}</main>
+        <Footer />
       </body>
     </html>
   );
