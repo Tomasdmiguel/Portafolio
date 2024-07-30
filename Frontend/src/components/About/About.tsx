@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Profile from "../assets/Profile.jpg";
+import ft from "../../assets/Profile.jpg";
 
 const About = () => {
   return (
@@ -13,7 +13,7 @@ const About = () => {
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="w-64 h-64 relative overflow-hidden rounded-full shadow-lg">
             <Image 
-              src={Profile} 
+              src={ft} 
               alt="Foto de perfil" 
               layout="fill" 
               objectFit="cover"

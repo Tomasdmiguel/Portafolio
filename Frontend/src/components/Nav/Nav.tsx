@@ -14,6 +14,14 @@ const Nav = () => {
             
             <li>Proyectos</li>
             </Link>
+
+            <Link href={"/Skill"}>
+              <li>Skill</li>
+            </Link>
+
+            <Link href={"/About"}>
+                <li>Sobre Mi</li>
+            </Link>
           </ul>
         </div>
         

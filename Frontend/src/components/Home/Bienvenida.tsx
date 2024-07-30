@@ -2,14 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import github from "../../assets/github.png";
 import lk from "../../assets/linkedin.png";
+import AnimatedTitle from "../AnimatedTitle/AnimatedTitle";
 
 const Bienvenida = () => {
   return (
     <main className="relative flex flex-col items-center justify-center min-h-screen px-4 py-8 md:px-8 md:py-12">
       <div className="absolute top-20 md:top-24">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4 text-center">
-          Bienvenido a mi portafolio
-        </h1>
+       
+        <AnimatedTitle/>
       </div>
       
       <div className="mt-32 md:mt-36 text-center">
