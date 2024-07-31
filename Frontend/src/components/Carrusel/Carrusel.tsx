@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const videos = [
-  { id: 1, src: "/videos/reserva.mp4" },
+  { id: 1, src: "https://www.youtube.com/watch?v=KziWzjoBveQ&t=5s" },
  
 ];
 
