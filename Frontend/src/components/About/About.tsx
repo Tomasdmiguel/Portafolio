@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ft from "../../assets/Profile.jpg";
+import Carrusel from "../Carrusel/Carrusel";
 
 const About = () => {
   return (
@@ -45,6 +46,7 @@ const About = () => {
             </p>
           </div>
         </div>
+        <Carrusel />
       </main>
     </div>
   );

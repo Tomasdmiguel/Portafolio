@@ -24,13 +24,13 @@ const Bienvenida = () => {
 
       <div className="flex space-x-6 mb-8 mt-9">
         <Link
-          href="https://github.com/tu-perfil"
+          href="https://github.com/Tomasdmiguel"
           target="_blank"
           rel="noopener noreferrer">
           <Image src={github} alt="Github" className="w-12 h-12 md:w-14 md:h-14 transition-transform transform hover:scale-110" />
         </Link>
         <Link
-          href="https://linkedin.com/in/tu-perfil"
+          href="https://www.linkedin.com/in/tomas-de-miguel-2912342b5/"
           target="_blank"
           rel="noopener noreferrer">
           <Image src={lk} alt="Linkedin" className="w-12 h-12 md:w-14 md:h-14 transition-transform transform hover:scale-110" />
