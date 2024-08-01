@@ -3,22 +3,14 @@
 import { useState } from "react";
 
 const videos = [
-  { id: 1, src: "https://www.youtube.com/watch?v=KziWzjoBveQ&t=5s" },
+  { id: 1, src: "/videos/Reserva.mp4" },
  
 ];
 
 const Carrusel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const prevSlide = () => {
-    const index = currentIndex === 0 ? videos.length - 1 : currentIndex - 1;
-    setCurrentIndex(index);
-  };
-
-  const nextSlide = () => {
-    const index = currentIndex === videos.length - 1 ? 0 : currentIndex + 1;
-    setCurrentIndex(index);
-  };
+  
 
   return (
     <div className="relative w-full max-w-2x2 mx-auto mt-10">
@@ -39,16 +31,7 @@ const Carrusel = () => {
           </div>
         ))}
       </div>
-      {/* <button
-        onClick={prevSlide}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white text-gray-800 p-3 rounded-full border border-gray-300 shadow-md transition-transform duration-300 hover:bg-gray-100 hover:shadow-lg">
-        &lt;
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white text-gray-800 p-3 rounded-full border border-gray-300 shadow-md transition-transform duration-300 hover:bg-gray-100 hover:shadow-lg">
-        &gt;
-      </button> */}
+     
     </div>
   );
 };
