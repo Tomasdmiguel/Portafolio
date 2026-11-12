@@ -1,36 +1,3 @@
-<!--
-Sync Impact Report
-==================
-Version change: 1.0.1 → 1.1.0
-Bump rationale: MINOR — se agregan secciones al portafolio (Cómo trabajo, Stack, Formación y
-certificaciones), se activa Proyectos y se cambia el lenguaje del stack de JavaScript a
-TypeScript. Ningún principio se elimina ni cambia de propósito.
-
-Principios modificados:
-  - II. Contenido real y separado del código: la forma de la data pasa de JSDoc (@typedef) a
-    tipos de TypeScript; el alcance de "contenido real" incluye proyectos y formación.
-  - I–VI: sin cambios de título.
-
-Secciones modificadas:
-  - Naturaleza del proyecto: nombre "Tomás De Miguel"; nueva lista y orden de secciones;
-    Certificaciones de Platzi fusionadas en "Formación y certificaciones"; Proyectos visible.
-  - Stack y restricciones técnicas: React 19 + Vite + TypeScript (TSX) en modo strict;
-    TypeScript y @types/* agregados a las dependencias base.
-  - Estructura y estilo de código: archivos .tsx/.ts, nuevas secciones y data, carpeta types/,
-    typecheck como parte de la calidad.
-
-Secciones agregadas: ninguna sección del documento (las nuevas son secciones del portafolio).
-Secciones eliminadas: ninguna. "Certificaciones" deja de ser sección propia del portafolio.
-
-Inferencias (confirmar): tipos compartidos en src/types/content.ts; prohibido `any`;
-ErrorBoundary.tsx en components/; README sin cambios.
-
-Templates dependientes (.specify/templates/*): leen la constitución en runtime; no se modifican.
-Specs existentes: ninguna; no hay coherencia que revisar.
-
-TODOs diferidos: ninguno.
--->
-
 # Portafolio Tomás De Miguel — Constitución
 
 ## Naturaleza del proyecto
