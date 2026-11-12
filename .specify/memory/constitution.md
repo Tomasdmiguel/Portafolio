@@ -1,23 +1,29 @@
 <!--
 Sync Impact Report
 ==================
-Version change: 1.0.0 → 1.0.1
-Bump rationale: PATCH — corrección de la fuente de tipografías (el paquete npm 'geist' no es
-utilizable fuera de Next.js) y aclaración explícita de la excepción de ErrorBoundary, que ya era
-requerida por el Principio V. No se agregan, eliminan ni redefinen principios.
+Version change: 1.0.1 → 1.1.0
+Bump rationale: MINOR — se agregan secciones al portafolio (Cómo trabajo, Stack, Formación y
+certificaciones), se activa Proyectos y se cambia el lenguaje del stack de JavaScript a
+TypeScript. Ningún principio se elimina ni cambia de propósito.
 
-Principios modificados: ninguno (I–VI sin cambios de título ni de alcance).
+Principios modificados:
+  - II. Contenido real y separado del código: la forma de la data pasa de JSDoc (@typedef) a
+    tipos de TypeScript; el alcance de "contenido real" incluye proyectos y formación.
+  - I–VI: sin cambios de título.
 
 Secciones modificadas:
-  - Stack y restricciones técnicas → Tipografía: Geist self-hosted (Fontsource o woff2 oficiales
-    de Vercel), elección justificada en plan.md; se excluye el paquete npm 'geist'.
-  - Estructura y estilo de código → excepción: ErrorBoundary como único componente de clase.
+  - Naturaleza del proyecto: nombre "Tomás De Miguel"; nueva lista y orden de secciones;
+    Certificaciones de Platzi fusionadas en "Formación y certificaciones"; Proyectos visible.
+  - Stack y restricciones técnicas: React 19 + Vite + TypeScript (TSX) en modo strict;
+    TypeScript y @types/* agregados a las dependencias base.
+  - Estructura y estilo de código: archivos .tsx/.ts, nuevas secciones y data, carpeta types/,
+    typecheck como parte de la calidad.
 
-Secciones agregadas: ninguna.
-Secciones eliminadas: ninguna.
+Secciones agregadas: ninguna sección del documento (las nuevas son secciones del portafolio).
+Secciones eliminadas: ninguna. "Certificaciones" deja de ser sección propia del portafolio.
 
-Inferencias de v1.0.0 (slugs de categorías, campos de certificado, elementos siempre visibles,
-viewports, Geist Mono, inline styles): confirmadas por el autor.
+Inferencias (confirmar): tipos compartidos en src/types/content.ts; prohibido `any`;
+ErrorBoundary.tsx en components/; README sin cambios.
 
 Templates dependientes (.specify/templates/*): leen la constitución en runtime; no se modifican.
 Specs existentes: ninguna; no hay coherencia que revisar.
@@ -25,18 +31,29 @@ Specs existentes: ninguna; no hay coherencia que revisar.
 TODOs diferidos: ninguno.
 -->
 
-# Portafolio Tomás D. Miguel — Constitución
+# Portafolio Tomás De Miguel — Constitución
 
 ## Naturaleza del proyecto
 
-Portafolio personal de Tomás D. Miguel, desarrollador. Objetivo: que reclutadores técnicos y no
-técnicos entiendan **en menos de 30 segundos** quién es, qué hace, su experiencia y cómo
+Portafolio personal de Tomás De Miguel, Frontend Developer. Objetivo: que reclutadores técnicos
+y no técnicos entiendan **en menos de 30 segundos** quién es, qué hace, su experiencia y cómo
 contactarlo. Se diferencia visualmente con una identidad **pixel/dot-matrix** y animaciones al
 hacer scroll.
 
-Secciones: **Hero**, **Sobre mí**, **Experiencia**, **Certificaciones de Platzi** agrupadas por
-categoría (IA, Inglés, Frontend, Backend) y **Contacto**. La sección **Proyectos personales**
-queda preparada en código y data, pero NO se muestra mientras `projects.js` esté vacío.
+Secciones, en este orden:
+
+1. **Hero**
+2. **Sobre mí**
+3. **Cómo trabajo**: AI-Driven + Spec-Driven Development (el diferencial del perfil).
+4. **Experiencia**
+5. **Proyectos**
+6. **Stack**
+7. **Formación y certificaciones**: título técnico, certificaciones de Platzi agrupadas por
+   categoría (IA, Inglés, Frontend, Backend) e idiomas.
+8. **Contacto**
+
+La sección **Proyectos** se muestra porque `projects.ts` tiene contenido (Niddo). Si en algún
+momento `projects.ts` queda vacío, la sección NO se renderiza.
 
 ## Core Principles
 
@@ -48,7 +65,8 @@ queda preparada en código y data, pero NO se muestra mientras `projects.js` est
   email) y CV descargable en PDF.
 - Profesionalismo al compartir: `<title>` con nombre y rol, meta description, imagen Open Graph
   propia y favicon propio son obligatorios.
-- Idioma: todo el contenido visible está en español.
+- Idioma: todo el contenido visible está en español. Los nombres de tecnologías y títulos de rol
+  de la industria (ej. "Frontend Developer") se mantienen como se usan habitualmente.
 - Costo cero: MUST NOT usarse servicios pagos (dominio propio, hosting, APIs).
 
 **Rationale**: el sitio compite por segundos de atención; un efecto que demora la lectura es un
@@ -56,16 +74,18 @@ defecto, no un adorno.
 
 ### II. Contenido real y separado del código (NO NEGOCIABLE)
 
-- La experiencia y las certificaciones son reales y verificables. MUST NOT inventarse contenido.
+- La experiencia, los proyectos, la formación y las certificaciones son reales y verificables.
+  MUST NOT inventarse contenido.
 - Cada certificado tiene: título, categoría, fecha y URL de verificación de Platzi.
 - Categorías de certificaciones cerradas: `'ai'`, `'english'`, `'frontend'`, `'backend'`.
   Agregar una categoría nueva exige enmendar esta constitución.
 - Los componentes MUST NOT tener texto de contenido hardcodeado; lo reciben por props desde
-  `src/data/`. Agregar un certificado = editar solo `certifications.js`.
-- La forma de cada entidad de data se documenta con JSDoc (`@typedef`) en su archivo.
+  `src/data/`. Agregar un certificado = editar solo `certifications.ts`.
+- La forma de cada entidad de data se define con tipos de TypeScript en `src/types/content.ts`;
+  la data y los componentes los importan. Las categorías se tipan como unión de literales.
 
 **Rationale**: el portafolio es una declaración pública verificable; mantener el contenido en
-data permite actualizarlo sin tocar componentes ni arriesgar regresiones.
+data tipada permite actualizarlo sin tocar componentes y detectar errores al compilar.
 
 ### III. Mobile-first responsive (NO NEGOCIABLE)
 
@@ -93,14 +113,16 @@ ellos contradice lo que intenta demostrar.
   legible; nunca queda oculto ni con `opacity: 0`.
 - **Movimiento reducido**: con `prefers-reduced-motion: reduce` las animaciones se desactivan
   (variantes `motion-safe` / `motion-reduce` de Tailwind).
-- **Validación de data**: en desarrollo (`import.meta.env.DEV`) una función valida cada archivo de
-  `src/data/` y hace `console.warn` si falta un campo obligatorio o una categoría no es válida.
-  En producción, un ítem inválido no se renderiza y no rompe la página.
+- **Validación de data**: los tipos cubren la validación en compilación. Además, en desarrollo
+  (`import.meta.env.DEV`) una función valida cada archivo de `src/data/` en runtime y hace
+  `console.warn` si falta un campo obligatorio o una URL está vacía. En producción, un ítem
+  inválido no se renderiza y no rompe la página.
 - **Estados vacíos**: una sección o grupo sin ítems no se renderiza. Nunca se muestran títulos
   con listas vacías.
 - **Imágenes**: tienen `width`/`height` para evitar CLS y un fallback visual si fallan al cargar.
 - **Links externos**: `target="_blank"` con `rel="noopener noreferrer"`. Antes de cada deploy a
-  producción se verifica que los links de LinkedIn, GitHub, CV y certificados respondan.
+  producción se verifica que los links de LinkedIn, GitHub, CV, proyectos y certificados
+  respondan.
 - **Error Boundary**: un componente `ErrorBoundary` envuelve cada sección; si una falla, el resto
   del portafolio sigue funcionando.
 - **Fuentes**: si Geist Pixel no carga, hay un fallback (`monospace`) que mantiene la legibilidad.
@@ -124,7 +146,8 @@ garantizado en cualquier navegador.
 
 ## Stack y restricciones técnicas
 
-- **Frontend**: React 19 + Vite, en JavaScript (JSX). Sin TypeScript.
+- **Frontend**: React 19 + Vite, en TypeScript (TSX) con `strict: true`. MUST NOT usarse `any`
+  explícito; si es inevitable, se justifica en el `plan.md`.
 - **Estilos**: Tailwind CSS v4 con el plugin `@tailwindcss/vite`. Los design tokens (colores,
   tipografías, espaciados) se definen con `@theme` dentro de `src/index.css`.
 - **Tipografía**: fuentes Geist (Sans, Mono y Pixel) self-hosted, vía Fontsource o los archivos
@@ -136,27 +159,31 @@ garantizado en cualquier navegador.
   - Geist Mono: elementos técnicos.
 - **Animaciones**: CSS scroll-driven animations (`animation-timeline: scroll()` / `view()`,
   `animation-range`). Prohibidas las librerías de animación JS (Framer Motion, GSAP, AOS, etc.).
-- **Backend**: ninguno. **Base de datos**: ninguna; todo el contenido es data en archivos JS
+- **Backend**: ninguno. **Base de datos**: ninguna; todo el contenido es data en archivos TS
   dentro de `src/data/`.
 - **Deploy**: Vercel (plan Hobby, gratuito) con integración Git conectada al repo de GitHub.
   Producción: https://tomasdmiguel.vercel.app. `master` = producción; cada rama de feature genera
   un preview deploy automático.
-- **Dependencias**: toda dependencia nueva fuera de React, Vite, Tailwind y Geist MUST
-  justificarse en el `plan.md` de la feature.
+- **Dependencias**: toda dependencia nueva fuera de React, Vite, Tailwind, Geist, TypeScript y
+  sus paquetes de tipos (`@types/*`, `typescript-eslint`) MUST justificarse en el `plan.md` de
+  la feature.
 
 ## Estructura y estilo de código
 
 ```text
 src/
 ├── components/
-│   ├── sections/   → una sección por archivo (Hero.jsx, About.jsx, Experience.jsx,
-│   │                 Certifications.jsx, Contact.jsx)
-│   └── ui/         → componentes reutilizables sin contenido propio (Button.jsx, Tag.jsx,
-│                     Card.jsx, SectionTitle.jsx)
-├── data/           → profile.js, experience.js, certifications.js, projects.js
+│   ├── sections/   → una sección por archivo (Hero.tsx, About.tsx, HowIWork.tsx,
+│   │                 Experience.tsx, Projects.tsx, Stack.tsx, Education.tsx, Contact.tsx)
+│   ├── ui/         → componentes reutilizables sin contenido propio (Button.tsx, Tag.tsx,
+│   │                 Card.tsx, SectionTitle.tsx)
+│   └── ErrorBoundary.tsx
+├── data/           → profile.ts, howIWork.ts, experience.ts, projects.ts, stack.ts,
+│                     education.ts, certifications.ts
+├── types/          → content.ts (tipos de todas las entidades de data)
 ├── assets/         → imágenes y logos
-├── App.jsx         → solo compone las secciones
-├── main.jsx
+├── App.tsx         → solo compone las secciones
+├── main.tsx
 └── index.css       → @import "tailwindcss", @theme con tokens, @utility y keyframes
                       de scroll-driven
 public/             → favicon, imagen Open Graph, CV en PDF
@@ -166,14 +193,17 @@ Reglas:
 
 - Componentes funcionales con hooks; un componente por archivo. Si un componente supera 150
   líneas, se divide.
+- Las props de cada componente se tipan con un `type` o `interface` explícito.
 - Excepción: `ErrorBoundary` es el único componente de clase permitido, porque React no ofrece
   Error Boundaries con hooks.
 - Nomenclatura: componentes en PascalCase; variables, funciones y archivos de data en camelCase;
-  constantes en UPPER_SNAKE_CASE. Código e identificadores en inglés; contenido visible en español.
+  tipos en PascalCase; constantes en UPPER_SNAKE_CASE. Código e identificadores en inglés;
+  contenido visible en español.
 - Estilos solo con clases de Tailwind. Prohibidos colores y tamaños sueltos (arbitrary values como
   `text-[#ff0000]`) salvo justificación documentada en el `plan.md`.
 - Las animaciones se definen como `@utility` en `index.css`, nunca como estilos inline.
-- Calidad: `npm run lint` y `npm run build` MUST pasar sin errores antes de cada commit.
+- Calidad: `npm run lint` y `npm run build` (que incluye el chequeo de tipos con `tsc`) MUST pasar
+  sin errores antes de cada commit.
 - Commits con Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `style:`, `refactor:`).
 
 ## Governance
@@ -188,4 +218,4 @@ Reglas:
 - Cada `plan.md` incluye un "Constitution Check" contra los principios I–VI; toda excepción se
   justifica explícitamente allí.
 
-**Version**: 1.0.1 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-10
+**Version**: 1.1.0 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-12
