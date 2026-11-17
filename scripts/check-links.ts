@@ -16,31 +16,38 @@ try {
   process.exit(1)
 }
 
-const urls = [
-  ...contactLinks.filter((link) => link.kind !== 'email').map((link) => link.href),
-  `${base}/cv/tomas-de-miguel-cv.pdf`,
-  `${base}${site.ogImage}`,
+// Para los archivos propios se exige además el tipo: una página de login con 200 no cuenta.
+const checks: { url: string; type?: string }[] = [
+  ...contactLinks.filter((link) => link.kind !== 'email').map((link) => ({ url: link.href })),
+  { url: `${base}/cv/tomas-de-miguel-cv.pdf`, type: 'application/pdf' },
+  { url: `${base}${site.ogImage}`, type: 'image/png' },
 ]
 
-async function status(url: string): Promise<number> {
+async function probe(url: string): Promise<Response> {
   const request = (method: 'HEAD' | 'GET') =>
     fetch(url, { method, redirect: 'follow', signal: AbortSignal.timeout(10_000) })
   const head = await request('HEAD')
   // Algunos servidores no aceptan HEAD: se reintenta con GET.
-  return head.status === 405 || head.status === 403 ? (await request('GET')).status : head.status
+  return head.status === 405 || head.status === 403 ? request('GET') : head
 }
 
 console.log(`Verificando links contra ${base}\n`)
 let failed = 0
 
-for (const url of urls) {
+for (const { url, type } of checks) {
   try {
-    const code = await status(url)
+    const response = await probe(url)
+    const code = response.status
+    const contentType = response.headers.get('content-type') ?? ''
     if (code === LINKEDIN_BLOCKED) {
       console.log(`⚠️  ${code}  ${url}  (LinkedIn bloquea bots: verificar a mano)`)
     } else if (code >= 400) {
       failed++
       console.log(`❌ ${code}  ${url}`)
+    } else if (type && !contentType.startsWith(type)) {
+      failed++
+      const hint = new URL(response.url).hostname === new URL(url).hostname ? '' : ` → redirige a ${new URL(response.url).hostname} (¿protegido?)`
+      console.log(`❌ ${code}  ${url}  (se esperaba ${type}, llegó ${contentType || 'sin tipo'}${hint})`)
     } else {
       console.log(`✅ ${code}  ${url}`)
     }
