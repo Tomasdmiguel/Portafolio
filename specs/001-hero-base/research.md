@@ -74,6 +74,11 @@ Assumptions). Versiones verificadas en npm el 2026-11-12.
   - **Rol, stack, ubicación, links y CV**: solo `opacity` (más `translate` sutil), sin máscara.
   - Todo dentro de `@supports (animation-timeline: view())` y con variante `motion-safe`. Sin
     soporte o con `prefers-reduced-motion: reduce`, no hay animación ni estados intermedios.
+- **Ajuste en implement (2026-11-17)**: con `view()` de cada elemento, el efecto solo corría
+  mientras el elemento cruzaba el borde superior y casi no se veía. Se reemplazó por una línea
+  de tiempo con nombre sobre la sección completa (`view-timeline-name: --hero` en la utility
+  `hero-timeline`) con `animation-range: exit 0% exit 80%`: el efecto avanza mientras el
+  contenido todavía está a la vista. El resto de la decisión no cambia.
 - **Rationale**: no requiere JS ni librerías (prohibidas), funciona igual sobre texto e imagen,
   se revierte sola al subir (es función del scroll) y el estado inicial es el estado por
   defecto, así que **nunca queda nada oculto** si la animación no corre (Principio V).
