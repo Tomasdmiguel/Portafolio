@@ -4,7 +4,7 @@
 
 **Created**: 2026-11-12
 
-**Status**: Draft
+**Status**: Approved
 
 **Input**: User description: "Hero y base del portafolio — primera pantalla del portafolio de
 Tomás De Miguel, Frontend Developer, para que un reclutador de RRHH o un programador entienda en
@@ -170,7 +170,7 @@ obligatorio y verificar que en desarrollo aparece un aviso y que la página no s
 **Hero — contenido y acciones**
 
 - **FR-001**: La primera pantalla MUST mostrar, sin scroll ni interacción previa, el nombre
-  "Tomás De Miguel" como único titular principal de la página.
+  "Tomás De Miguel" como titular principal (ver FR-013).
 - **FR-002**: La primera pantalla MUST mostrar el rol "Frontend Developer Semi Senior |
   AI-Driven Development", el stack principal "React · TypeScript · Next.js" (con estilo de
   elemento técnico) y la ubicación "Tandil, Argentina · Disponible para trabajo remoto".
@@ -216,7 +216,8 @@ obligatorio y verificar que en desarrollo aparece un aviso y que la página no s
 - **FR-014**: Todo elemento interactivo MUST ser operable por teclado, con foco visible, y tener
   un área táctil de al menos 44×44px.
 - **FR-015**: El layout MUST verse y funcionar correctamente en 360px, 768px, 1280px y móvil
-  horizontal, sin scroll horizontal.
+  horizontal, sin scroll horizontal. En móvil horizontal (por ejemplo, 740×360) el nombre, el
+  rol y "Ver CV" MUST verse sin scroll; el resto del hero puede requerir scroll vertical.
 - **FR-016**: Texto y elementos interactivos MUST cumplir contraste WCAG AA.
 
 **Presentación al compartir**
@@ -274,7 +275,7 @@ obligatorio y verificar que en desarrollo aparece un aviso y que la página no s
 - **SC-003**: La auditoría automática de calidad web (Lighthouse) da 90 o más en Performance,
   Accessibility, Best Practices y SEO, tanto en mobile como en desktop.
 - **SC-004**: El contenido principal se ve en menos de 2,5 segundos en una conexión móvil
-  simulada (4G lenta), y el layout no salta de forma perceptible al cargar las fuentes.
+  simulada (4G lenta), y el desplazamiento acumulado del layout al cargar (CLS) es menor a 0,1.
 - **SC-005**: Al compartir el link en LinkedIn, WhatsApp y Slack, las tres vistas previas
   muestran el título, la descripción y la imagen propios.
 - **SC-006**: Cambiar cualquier dato del perfil requiere editar un solo archivo de data y ningún
@@ -291,8 +292,7 @@ obligatorio y verificar que en desarrollo aparece un aviso y que la página no s
 - **Datos del perfil recibidos**: LinkedIn `https://www.linkedin.com/in/tomasdmiguel/`, GitHub
   `https://github.com/Tomasdmiguel` y foto original (retrato cuadrado 800×800, fondo con plantas
   y pared gris) guardada en `specs/001-hero-base/assets/foto-original.png` como material fuente.
-- **Datos pendientes de Tomás**: el PDF del CV se entrega antes de la fase de implementación; no
-  bloquea el spec ni el plan.
+- **CV**: Tomás entregó el PDF el 2026-11-17; está en `public/cv/tomas-de-miguel-cv.pdf`.
 - **Tratamiento de la foto**: se resuelve en el plan (imagen procesada de antemano o efecto
   aplicado en el navegador). El fondo de la foto original es muy detallado; el plan evalúa
   recortarla o simplificar el fondo para que el efecto de puntos se lea bien.

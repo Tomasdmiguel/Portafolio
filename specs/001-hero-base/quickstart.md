@@ -9,7 +9,7 @@ Referencias: [spec.md](./spec.md) · [data-model.md](./data-model.md) ·
 - Node 26 y npm 11 (`node -v`, `npm -v`).
 - Google Chrome (Lighthouse y export de OG image).
 - Rama `001-hero-base`.
-- `public/cv/tomas-de-miguel-cv.pdf` presente (**pendiente de Tomás**).
+- `public/cv/tomas-de-miguel-cv.pdf` presente.
 
 ## 1. Calidad (gate de la constitución)
 
@@ -18,7 +18,8 @@ npm install
 npm run lint        # 0 errores
 npm run build       # tsc -b + vite build, 0 errores
 npm test            # node --test sobre src/lib/*.test.ts, todo verde
-npm run check:links # LinkedIn puede dar 999 → verificar a mano
+npm run check:links -- https://<preview>.vercel.app  # sin argumento usa producción
+                                                     # LinkedIn puede dar 999 → verificar a mano
 ```
 
 **Esperado**: los cuatro terminan sin errores. No quedan archivos del template de Vite
@@ -33,10 +34,13 @@ npm run preview     # sirve dist/ en http://localhost:4173
 En Chrome DevTools (modo dispositivo), viewports **360×740**, **768×1024**, **1280×800** y
 **740×360** (móvil horizontal):
 
-- [ ] Sin scrollear se ven: nombre (h1), rol, stack "React · TypeScript · Next.js", ubicación +
-      disponibilidad, foto, LinkedIn, GitHub, Email y "Ver CV". (En 740×360 se admite que el
-      layout pase a dos columnas.)
-- [ ] No hay scroll horizontal.
+- [ ] En 360×740, 768×1024 y 1280×800, sin scrollear se ven: nombre (h1), rol, stack
+      "React · TypeScript · Next.js", ubicación + disponibilidad, foto, LinkedIn, GitHub, Email y
+      "Ver CV".
+- [ ] En 740×360 (dos columnas): nombre, rol y "Ver CV" se ven sin scrollear; el resto puede
+      requerir scroll vertical (FR-015).
+- [ ] En 1280×800 con zoom al 200%: todo legible y operable, sin pérdida de información.
+- [ ] No hay scroll horizontal en ningún caso.
 - [ ] LinkedIn, GitHub y "Ver CV" abren pestaña nueva; Email abre el cliente de correo.
 - [ ] Tab recorre marca → LinkedIn → GitHub → Email → Ver CV con foco ámbar visible.
 - [ ] Cada link/botón mide ≥ 44×44 px (DevTools → inspeccionar).
@@ -73,11 +77,13 @@ grep -E 'og:|twitter:|<title>|description|canonical|apple-touch' dist/index.html
 - [ ] Cambiar `location` en `src/data/profile.ts` → el hero cambia sin tocar componentes.
 - [ ] `npm run dev`, vaciar `role` en `profile.ts` → `console.warn` con
       `profile.role`; la página sigue funcionando.
+- [ ] Duplicar la entrada `inicio` en `src/data/sections.ts` → `console.warn` con `sections`.
+      Revertir.
 - [ ] Poner un `href` inválido en un link → warning en DEV; en `npm run build && npm run preview`
       ese link no aparece y el resto sí.
 - [ ] Forzar un `throw` temporal en `Hero` → el header y el footer siguen visibles (ErrorBoundary).
       Revertir.
-- [ ] Ningún componente tiene colores hex ni arbitrary values (`grep -rE '\[#|-\[[0-9]' src/components`
+- [ ] Ningún componente tiene colores hex ni arbitrary values (`grep -rnE -- '-\[|\[#' src/components`
       sin resultados).
 
 ## 6. Rendimiento y accesibilidad (SC-003 · SC-004)

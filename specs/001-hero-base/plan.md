@@ -74,7 +74,7 @@ base que van a extender 7 features más.
 | Dependencias nuevas justificadas | Todas dentro de la lista permitida (Tailwind, Geist, TypeScript, `typescript-eslint`) | ✅ |
 | Estructura de carpetas | Se agregan `src/lib/` y `scripts/` (ver Complexity Tracking) | ⚠️ justificado |
 | Sin arbitrary values | Tamaños fluidos y colores como tokens; ningún `[…]` en clases | ✅ |
-| Animaciones como `@utility` | `dot-dissolve`, `hero-fade` y `dot-photo` en `index.css` | ✅ |
+| Animaciones como `@utility` | `dot-photo`, `dot-dissolve`, `dot-photo-dissolve` y `hero-fade` en `index.css` | ✅ |
 | Calidad: lint + build | `build = tsc -b && vite build`; más `npm test` | ✅ |
 
 **Re-evaluación post-diseño (Phase 1)**: sin violaciones nuevas. Los contratos y el data model
@@ -117,7 +117,7 @@ public/
 ├── apple-touch-icon.png   # 180×180
 ├── og-image.png           # 1200×630
 ├── fonts/GeistPixel-{Square,Circle}.woff2
-└── cv/tomas-de-miguel-cv.pdf   # PENDIENTE
+└── cv/tomas-de-miguel-cv.pdf
 
 scripts/
 └── check-links.ts         # verificación de links antes del deploy
@@ -129,6 +129,7 @@ src/
 ├── vite-env.d.ts
 ├── types/content.ts
 ├── data/
+│   ├── contactLinks.ts    # sin imports de assets (lo usa scripts/check-links.ts)
 │   ├── profile.ts
 │   ├── sections.ts
 │   └── site.ts            # sin imports de assets (lo usa vite.config.ts)
@@ -181,7 +182,7 @@ Detalle y alternativas en [research.md](./research.md).
 | Geist Pixel Square sin glifo "á" | Se verifica al inicio de implement; si falta, el fallback lo cubre y se documenta |
 | Animar `mask` repinta y puede bajar Performance | Solo 2 elementos; se mide con Lighthouse y el panel Performance; plan B: animar `mask-size` |
 | Fondo de plantas genera ruido en los puntos | Recorte cerrado + viñeta radial; si no alcanza, Tomás aporta una foto con fondo liso |
-| CV pendiente | Bloquea solo el check final de US1 y `check:links`, no el resto de las tareas |
+| Datos personales de más en el CV público | La versión web del PDF no incluye el teléfono (se quitó el 2026-11-17); al reemplazar el CV, revisar que siga sin él |
 
 ## Complexity Tracking
 

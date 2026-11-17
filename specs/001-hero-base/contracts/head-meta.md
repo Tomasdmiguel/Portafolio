@@ -60,4 +60,4 @@ e inyectados por el plugin de `vite.config.ts`.
 | `/apple-touch-icon.png` | export Chrome headless de `specs/001-hero-base/assets/og/icon.html` |
 | `/og-image.png` | export Chrome headless de `specs/001-hero-base/assets/og/og.html` |
 | `/fonts/GeistPixel-Square.woff2`, `/fonts/GeistPixel-Circle.woff2` | repo `vercel/geist-font` (OFL-1.1) |
-| `/cv/tomas-de-miguel-cv.pdf` | **pendiente** (lo entrega Tomás) |
+| `/cv/tomas-de-miguel-cv.pdf` | PDF entregado por Tomás (2 páginas) |

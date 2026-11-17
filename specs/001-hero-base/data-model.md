@@ -19,11 +19,14 @@ La información que muestra el Hero.
 | `stack` | string[] | sí | ≥ 1 ítem, ninguno vacío; se muestra unido con ` · ` | `React`, `TypeScript`, `Next.js` |
 | `location` | string | sí | no vacío | `Tandil, Argentina` |
 | `availability` | string | sí | no vacío | `Disponible para trabajo remoto` |
-| `contactLinks` | ContactLink[] | sí | ≥ 1 ítem válido; tipos sin repetir | ver abajo |
+| `contactLinks` | ContactLink[] | sí | ≥ 1 ítem válido; tipos sin repetir | importado de `src/data/contactLinks.ts` |
 | `cv` | Resume | sí | `href` empieza con `/` y termina en `.pdf` | ver abajo |
 | `photo` | ProfilePhoto | sí | ver abajo | ver abajo |
 
-### ContactLink
+### ContactLink (`src/data/contactLinks.ts`)
+
+Archivo propio **sin imports de assets**: lo importan `profile.ts` y `scripts/check-links.ts`
+(Node no puede cargar la foto que importa `profile.ts`).
 
 | Campo | Tipo | Regla |
 |---|---|---|
@@ -49,7 +52,7 @@ Derivado (no se guarda): `isExternal = kind !== 'email'` → `target="_blank"` +
 |---|---|---|---|
 | `label` | string | no vacío | `Ver CV` |
 | `ariaLabel` | string | no vacío | `Ver CV en PDF (se abre en una pestaña nueva)` |
-| `href` | string | `/…​.pdf` | `/cv/tomas-de-miguel-cv.pdf` (**archivo pendiente**) |
+| `href` | string | `/…​.pdf` | `/cv/tomas-de-miguel-cv.pdf` |
 
 ### ProfilePhoto
 
@@ -67,7 +70,7 @@ Registro de secciones para la navegación.
 
 | Campo | Tipo | Regla |
 |---|---|---|
-| `id` | `SectionId` (unión: `'inicio' \| 'sobre-mi' \| 'como-trabajo' \| 'experiencia' \| 'proyectos' \| 'stack' \| 'formacion' \| 'contacto'`) | único; es el ancla (`#id`) |
+| `id` | `SectionId` (unión: `'inicio' \| 'sobre-mi' \| 'como-trabajo' \| 'experiencia' \| 'proyectos' \| 'stack' \| 'formacion' \| 'contacto'`) | único; es el ancla (`#id`); `inicio` debe existir |
 | `label` | string | no vacío; texto del link |
 | `hasContent` | boolean | `false` → no aparece en la navegación |
 
@@ -99,7 +102,7 @@ Datos del `<head>`. **Sin imports de assets** (lo lee `vite.config.ts` en Node).
 
 ```text
 SiteMeta ─(nombre/rol coinciden por contenido, no por referencia)─ Profile
-Profile 1 ── n ContactLink
+Profile 1 ── n ContactLink (definidos en contactLinks.ts)
 Profile 1 ── 1 Resume
 Profile 1 ── 1 ProfilePhoto
 Section n (registro) ── usado por SiteHeader (navegación)
@@ -112,6 +115,7 @@ validador DEV verifica que `SiteMeta.title` empiece con `Profile.name`.
 ## Validación (resumen)
 
 - **Compilación**: tipos estrictos; uniones cerradas para `kind` y `SectionId`.
-- **DEV** (`validateProfile`, `validateSite`): reglas de las tablas → `console.warn` por problema.
+- **DEV** (`validateProfile`, `validateSite`, `validateSections`): reglas de las tablas →
+  `console.warn` por problema. Se valida cada archivo de `src/data/` (Principio V).
 - **Producción**: `getValidContactLinks()` descarta links inválidos; si el CV es inválido, el
   botón no se renderiza. Nada lanza excepciones por data inválida.
