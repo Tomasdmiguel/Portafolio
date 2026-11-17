@@ -80,6 +80,7 @@ export interface ValidationIssue {
 |---|---|---|---|
 | `validateProfile(profile)` | `Profile` | `ValidationIssue[]` | DEV: `console.warn` por issue |
 | `validateSite(site, profile)` | `SiteMeta`, `Profile` | `ValidationIssue[]` | DEV |
+| `validateSections(sections)` | `readonly Section[]` | `ValidationIssue[]` | DEV: `id` único, `label` no vacío, existe `inicio` |
 | `isValidContactLink(link)` | `ContactLink` | `boolean` | runtime (prod y dev) |
 | `getValidContactLinks(links)` | `readonly ContactLink[]` | `ContactLink[]` | runtime: filtra inválidos |
 

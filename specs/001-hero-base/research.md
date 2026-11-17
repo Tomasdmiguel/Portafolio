@@ -162,6 +162,9 @@ Assumptions). Versiones verificadas en npm el 2026-11-12.
 - **Decision**: `scripts/check-links.ts` (Node 26, `fetch` nativo) recorre las URLs del perfil y
   falla si alguna responde ≥ 400. Excepción documentada: LinkedIn responde `999` a clientes
   automáticos; se trata como "alcanzable, verificar a mano". Script `npm run check:links`.
+  Recibe la URL base como argumento (`npm run check:links -- <URL del preview>`) para verificar
+  el preview de Vercel antes del merge; sin argumento usa `site.siteUrl` (producción). Las URLs
+  de contacto salen de `src/data/contactLinks.ts`, que no importa assets.
 - **Rationale**: Principio V exige verificar LinkedIn, GitHub y CV antes de cada deploy a
   producción; automatizarlo evita olvidos.
 
