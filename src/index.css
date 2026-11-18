@@ -1,111 +1,161 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import 'tailwindcss';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+/* Geist Pixel: woff2 oficiales de vercel/geist-font (OFL-1.1) en public/fonts. */
+@font-face {
+  font-family: 'Geist Pixel Square';
+  src: url('/fonts/GeistPixel-Square.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-@media (prefers-color-scheme: dark) {
+@font-face {
+  font-family: 'Geist Pixel Circle';
+  src: url('/fonts/GeistPixel-Circle.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* Paleta oscura con un solo acento ámbar (research R3). */
+  --color-bg: #0a0a0a;
+  --color-surface: #141414;
+  --color-border: #262626;
+  --color-fg: #ededed;
+  --color-muted: #a1a1a1;
+  --color-accent: #ffb000;
+  --color-accent-fg: #0a0a0a;
+
+  --font-sans: 'Geist Variable', system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+  --font-pixel: 'Geist Pixel Square', monospace;
+  --font-pixel-circle: 'Geist Pixel Circle', monospace;
+
+  /* Titular fluido sin arbitrary values (research R11). */
+  --text-display: clamp(2.75rem, 7vw + 1rem, 6.5rem);
+  --text-display--line-height: 1;
+}
+
+/* Tokens del efecto de puntos: siempre emitidos porque los usan @utility y @keyframes. */
+@theme static {
+  --dot-cell: 6px;
+  --dot-r-rest: 2.2px;
+}
+
+/* Radio animable de los puntos de la máscara (research R4). */
+@property --dot-r {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@layer base {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    color-scheme: dark;
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-accent-fg);
   }
 }
 
-body {
-  margin: 0;
+/* Móvil horizontal: pantalla apaisada y de poca altura (research R12). */
+@custom-variant short (@media (orientation: landscape) and (max-height: 30rem));
+
+/*
+ * Foto con tratamiento dot-matrix en reposo (FR-002a, research R6):
+ * viñeta radial ∩ grilla de puntos. Sin soporte de mask, se ve en grises sin puntos.
+ */
+@utility dot-photo {
+  --dot-r: var(--dot-r-rest);
+  mask-image:
+    radial-gradient(circle at center, #000 55%, transparent 71%),
+    radial-gradient(circle, #000 var(--dot-r), transparent calc(var(--dot-r) + 0.5px));
+  mask-size:
+    100% 100%,
+    var(--dot-cell) var(--dot-cell);
+  mask-repeat: no-repeat, repeat;
+  mask-composite: intersect;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
+/* ---- Efecto al scrollear (US2, research R4) ---- */
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+/* Texto: puntos que empiezan cubriendo toda la celda (= texto nítido) y se achican a 0. */
+@keyframes dot-dissolve {
+  from {
+    --dot-r: var(--dot-cell);
+  }
+  to {
+    --dot-r: 0px;
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+/* Foto: parte del radio en reposo de dot-photo. */
+@keyframes dot-photo-dissolve {
+  from {
+    --dot-r: var(--dot-r-rest);
+  }
+  to {
+    --dot-r: 0px;
   }
 }
-p {
-  margin: 0;
+
+/* Rol, stack, ubicación, links y CV: solo se desvanecen (FR-009). */
+@keyframes hero-fade {
+  from {
+    opacity: 1;
+    translate: 0 0;
+  }
+  to {
+    opacity: 0;
+    translate: 0 -1.5rem;
+  }
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+/* Línea de tiempo compartida: el avance del scroll sobre la sección Hero completa. */
+@utility hero-timeline {
+  view-timeline-name: --hero;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/*
+ * Solo con soporte de scroll-driven animations. El estado con el scroll arriba es idéntico al
+ * estado sin animación: nada oculto ni transparente (FR-010).
+ */
+@utility dot-dissolve {
+  @supports (animation-timeline: view()) {
+    mask-image: radial-gradient(circle, #000 var(--dot-r), transparent calc(var(--dot-r) + 0.5px));
+    mask-size: var(--dot-cell) var(--dot-cell);
+    animation: dot-dissolve linear both;
+    animation-timeline: --hero;
+    animation-range: exit 0% exit 80%;
+  }
+}
+
+@utility dot-photo-dissolve {
+  @supports (animation-timeline: view()) {
+    animation: dot-photo-dissolve linear both;
+    animation-timeline: --hero;
+    animation-range: exit 0% exit 80%;
+  }
+}
+
+@utility hero-fade {
+  @supports (animation-timeline: view()) {
+    animation: hero-fade linear both;
+    animation-timeline: --hero;
+    animation-range: exit 0% exit 80%;
+  }
 }
