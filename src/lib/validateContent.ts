@@ -63,11 +63,13 @@ export function validateProfile(profile: Profile): ValidationIssue[] {
   }
 
   const { photo } = profile
-  if (isBlank(photo.alt)) add('photo.alt', 'no puede estar vacío')
-  if (!(photo.width > 0)) add('photo.width', 'debe ser mayor a 0')
-  if (!(photo.height > 0)) add('photo.height', 'debe ser mayor a 0')
-  const initials = photo.fallbackInitials.trim().length
-  if (initials < 1 || initials > 3) add('photo.fallbackInitials', 'debe tener entre 1 y 3 caracteres')
+  if (photo) {
+    if (isBlank(photo.alt)) add('photo.alt', 'no puede estar vacío')
+    if (!(photo.width > 0)) add('photo.width', 'debe ser mayor a 0')
+    if (!(photo.height > 0)) add('photo.height', 'debe ser mayor a 0')
+    const initials = photo.fallbackInitials.trim().length
+    if (initials < 1 || initials > 3) add('photo.fallbackInitials', 'debe tener entre 1 y 3 caracteres')
+  }
 
   return issues
 }

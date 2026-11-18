@@ -7,9 +7,10 @@
 ## Summary
 
 Reemplazar el template de Vite por la base del portafolio y su primera sección. El Hero muestra
-en la primera pantalla el nombre en Geist Pixel, el rol, el stack, la ubicación, la foto con
-tratamiento dot-matrix, los links de contacto y "Ver CV". Al scrollear, el nombre y la foto se
-desarman en puntos y el resto se desvanece.
+en la primera pantalla el nombre en Geist Pixel, el rol, el stack, la ubicación, los links de contacto y "Ver CV". Al
+scrollear, el nombre se desarma en puntos y el resto se desvanece. La foto con tratamiento
+dot-matrix es opcional: se sacó el 2026-11-17 y el componente queda listo para cuando haya una
+imagen definitiva.
 
 **Enfoque técnico**:
 - Migración a **TypeScript 6.0 strict**.
@@ -136,7 +137,6 @@ src/
 ├── lib/
 │   ├── validateContent.ts
 │   └── validateContent.test.ts
-├── assets/profile/        # tomas-320.avif, tomas-640.avif, tomas-640.jpg
 └── components/
     ├── ErrorBoundary.tsx
     ├── SiteHeader.tsx
@@ -181,7 +181,7 @@ Detalle y alternativas en [research.md](./research.md).
 |---|---|
 | Geist Pixel Square sin glifo "á" | Se verifica al inicio de implement; si falta, el fallback lo cubre y se documenta |
 | Animar `mask` repinta y puede bajar Performance | Solo 2 elementos; se mide con Lighthouse y el panel Performance; plan B: animar `mask-size` |
-| Fondo de plantas genera ruido en los puntos | Recorte cerrado + viñeta radial; si no alcanza, Tomás aporta una foto con fondo liso |
+| Fondo de plantas genera ruido en los puntos | Resuelto sacando la foto (2026-11-17); si vuelve una imagen, que tenga fondo liso |
 | Datos personales de más en el CV público | La versión web del PDF no incluye el teléfono (se quitó el 2026-11-17); al reemplazar el CV, revisar que siga sin él |
 
 ## Complexity Tracking

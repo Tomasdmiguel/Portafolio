@@ -55,6 +55,10 @@ describe('validateProfile', () => {
     assert.deepEqual(validateProfile(profile), [])
   })
 
+  test('un perfil sin foto es válido (la foto es opcional)', () => {
+    assert.deepEqual(validateProfile({ ...profile, photo: undefined }), [])
+  })
+
   test('role vacío genera un problema en profile.role', () => {
     assert.ok(paths(validateProfile({ ...profile, role: '  ' })).includes('profile.role'))
   })

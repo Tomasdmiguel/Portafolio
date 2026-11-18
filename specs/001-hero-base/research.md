@@ -105,6 +105,12 @@ Assumptions). Versiones verificadas en npm el 2026-11-12.
 
 ## R6. Tratamiento y formato de la foto (Clarification Q2)
 
+> **Ajuste 2026-11-17**: la foto en puntos se veía muy oscura. Se probaron un mosaico estilo LEGO,
+> un muñequito ilustrado, tres estilos gamer (retrato RPG, selección de personaje, sprite) y
+> generar ilustración o video con IA; ninguno convenció. `Profile.photo` pasa a ser opcional y el
+> Hero va sin imagen. `ProfileImage`, `dot-photo` y `dot-photo-dissolve` quedan para cuando vuelva
+> una imagen; los archivos `src/assets/profile/*` se borraron (están en el historial de git).
+
 - **Decision**:
   1. **Archivo** (procesado una sola vez, sin dependencias): desde
      `specs/001-hero-base/assets/foto-original.png` (800×800), recorte centrado más cerrado
