@@ -14,13 +14,18 @@ export function Hero({ profile }: HeroProps) {
   const validLinks = getValidContactLinks(contactLinks)
   const showCv = isValidResumeHref(cv.href)
 
+  // Con foto: dos columnas en desktop y landscape. Sin foto: una sola columna (FR-002a).
+  const layout = photo
+    ? 'md:flex-row-reverse md:items-center md:justify-between md:gap-12 short:flex-row short:items-center short:gap-6'
+    : 'short:gap-3'
+
   return (
     <section
       id="inicio"
       aria-labelledby="hero-title"
-      className="hero-timeline mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-6 px-4 py-6 md:flex-row-reverse md:items-center md:justify-between md:gap-12 md:px-8 short:flex-row short:items-center short:gap-6 short:py-3"
+      className={`hero-timeline mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-6 px-4 py-6 md:px-8 short:py-3 ${layout}`}
     >
-      <ProfileImage photo={photo} className="motion-safe:dot-photo-dissolve" />
+      {photo && <ProfileImage photo={photo} className="motion-safe:dot-photo-dissolve" />}
 
       <div className="flex flex-col gap-5 short:gap-3">
         <h1 id="hero-title" className="font-pixel text-display text-accent motion-safe:dot-dissolve short:text-5xl">

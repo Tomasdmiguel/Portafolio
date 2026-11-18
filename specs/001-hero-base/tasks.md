@@ -145,6 +145,8 @@ estático sin soporte o con movimiento reducido (FR-009, FR-009a, FR-010, FR-011
 - [X] T044 [P] Auditoría de la constitución: `grep -rnE -- '-\[|\[#' src/components` sin resultados (sin arbitrary values ni hex); cada componente < 150 líneas (`wc -l src/components/**/*.tsx`); ningún texto de contenido en componentes; identificadores en inglés.
 - [X] T045 [P] Reemplazar `README.md` (texto del template de Vite) por una descripción breve del portafolio, el stack, los scripts (`dev`, `build`, `lint`, `test`, `check:links`, `preview`) y el flujo SDD con `specs/`.
 - [ ] T046 Validación final con [quickstart.md](./quickstart.md) §1–§7: `npm run lint && npm run build && npm test`; Lighthouse ≥ 90 en las 4 categorías, mobile y desktop, con LCP < 2,5 s y CLS < 0,1 (si falla, optimizar y repetir); push de la rama, preview de Vercel, `npm run check:links -- <URL del preview>`, vistas previas en LinkedIn Post Inspector, WhatsApp y Slack; prueba de 30 s con 5 personas (SC-001).
+  - Progreso 2026-11-17: lint, build y tests ✅; Lighthouse ≥ 90 en las 4 categorías, mobile y desktop ✅ (Performance mobile 96); preview desplegado ✅ pero con Deployment Protection, así que `check:links` y las vistas previas pasan a validarse en producción después del merge.
+  - Cambio 2026-11-17: la foto se sacó del Hero (`Profile.photo` opcional, Hero en una columna sin foto, assets borrados, test nuevo). Ver spec Session 2026-11-17 y research R6.
 
 ---
 

@@ -40,7 +40,8 @@ export interface Profile {
   availability: string
   contactLinks: readonly ContactLink[]
   cv: Resume
-  photo: ProfilePhoto
+  /** Opcional: sin foto, el Hero se arma en una sola columna. */
+  photo?: ProfilePhoto
 }
 
 export type SectionId =

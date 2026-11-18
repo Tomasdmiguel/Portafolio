@@ -28,6 +28,13 @@ validación de data en desarrollo) que van a usar las secciones siguientes."
   pestaña nueva? → A: Se abre en una pestaña nueva (botón "Ver CV"); desde el visor del
   navegador se puede descargar.
 
+### Session 2026-11-17
+
+- Q: Después de ver la foto en puntos, el mosaico estilo LEGO, el muñequito, los estilos gamer y
+  las ilustraciones o videos generados con IA, ¿el Hero lleva imagen? → A: No, por ahora. Ninguna
+  propuesta convenció; el Hero va solo con texto y la foto pasa a ser opcional, para sumarla
+  cuando haya una imagen definitiva.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - El reclutador entiende quién es Tomás en segundos (Priority: P1)
@@ -63,8 +70,8 @@ la información y las acciones de contacto se ven en la primera pantalla, sin sc
 
 ### User Story 2 - El visitante se sorprende con la identidad pixel/dot-matrix (Priority: P2)
 
-Un programador o reclutador que ya leyó el hero empieza a scrollear. El nombre y la foto se
-"desarman" en puntos al ritmo del scroll, mientras el resto del texto del hero se desvanece. La experiencia se siente original y distinta de un portafolio genérico, sin demorar la
+Un programador o reclutador que ya leyó el hero empieza a scrollear. El nombre (y la foto, si
+hay) se "desarman" en puntos al ritmo del scroll, mientras el resto del texto del hero se desvanece. La experiencia se siente original y distinta de un portafolio genérico, sin demorar la
 lectura.
 
 **Why this priority**: es el diferencial visual del portafolio, pero el contenido de la P1 ya
@@ -77,8 +84,8 @@ soporte, o con "reducir movimiento" activo, verificar que todo se ve estático y
 **Acceptance Scenarios**:
 
 1. **Given** un navegador con soporte de animaciones ligadas al scroll y sin preferencia de
-   movimiento reducido, **When** el visitante scrollea hacia abajo, **Then** el nombre y la foto
-   se "desarman" en puntos y el rol, el stack, la ubicación, los links y el botón de CV se
+   movimiento reducido, **When** el visitante scrollea hacia abajo, **Then** el nombre (y la foto,
+   si hay) se "desarman" en puntos y el rol, el stack, la ubicación, los links y el botón de CV se
    desvanecen, todo en proporción al avance del scroll.
 5. **Given** el hero completamente visible (scroll en el inicio), **When** el visitante lo mira,
    **Then** ningún elemento está desarmado ni desvanecido: todo se ve nítido y opaco.
@@ -152,7 +159,7 @@ obligatorio y verificar que en desarrollo aparece un aviso y que la página no s
 - **Pantallas muy chicas o móvil horizontal**: en 360px de ancho y en móvil horizontal (altura
   reducida), el nombre no se corta ni desborda horizontalmente, y la información clave y las
   acciones de contacto siguen accesibles sin scroll horizontal.
-- **Foto que no carga**: si la foto falla, se muestra un fallback visual (por ejemplo, las
+- **Foto que no carga** (solo si el perfil tiene foto): si la foto falla, se muestra un fallback visual (por ejemplo, las
   iniciales en estilo pixel) del mismo tamaño; el layout no se rompe y el resto del hero se lee
   igual.
 - **Nombre largo con tilde**: "Tomás" se renderiza correctamente con la tipografía pixel y con la
@@ -174,8 +181,9 @@ obligatorio y verificar que en desarrollo aparece un aviso y que la página no s
 - **FR-002**: La primera pantalla MUST mostrar el rol "Frontend Developer Semi Senior |
   AI-Driven Development", el stack principal "React · TypeScript · Next.js" (con estilo de
   elemento técnico) y la ubicación "Tandil, Argentina · Disponible para trabajo remoto".
-- **FR-002a**: La primera pantalla MUST mostrar una foto de Tomás con tratamiento
-  pixel/dot-matrix, con texto alternativo descriptivo ("Foto de Tomás De Miguel"), dimensiones
+- **FR-002a**: La foto es opcional (sin foto desde el 2026-11-17). Sin foto, el Hero se arma
+  en una sola columna con el nombre como protagonista. Si el perfil tiene foto, la primera
+  pantalla MUST mostrarla con tratamiento pixel/dot-matrix, con texto alternativo descriptivo ("Foto de Tomás De Miguel"), dimensiones
   reservadas para que el layout no salte al cargar, y un tamaño que no desplace nombre, rol ni
   acciones de contacto fuera de la primera pantalla en 360px. El nombre sigue siendo el elemento
   con mayor jerarquía visual.
@@ -195,7 +203,7 @@ obligatorio y verificar que en desarrollo aparece un aviso y que la página no s
 
 - **FR-008**: El nombre MUST mostrarse con la tipografía pixel de la identidad del portafolio, en
   un tamaño que se adapta de forma fluida al ancho de pantalla.
-- **FR-009**: Al scrollear hacia abajo, el nombre y la foto MUST "desarmarse" en puntos
+- **FR-009**: Al scrollear hacia abajo, el nombre (y la foto, si hay) MUST "desarmarse" en puntos
   (efecto pixel/dot-matrix), y el rol, el stack, la ubicación, los links y el botón de CV MUST
   solo desvanecerse, sin pixelarse. El avance está ligado a la posición del scroll: progresa al
   bajar y se revierte al subir. Con el scroll en el inicio, todo el hero se ve nítido y opaco.
@@ -256,7 +264,8 @@ obligatorio y verificar que en desarrollo aparece un aviso y que la página no s
 
 - **Perfil (Profile)**: la información personal y profesional que muestra el hero. Atributos:
   nombre, rol, stack principal (lista de tecnologías), ubicación, disponibilidad, links de
-  contacto, ubicación del CV y foto (imagen con tratamiento pixel y su texto alternativo).
+  contacto, ubicación del CV y, opcionalmente, foto (imagen con tratamiento pixel y su texto
+  alternativo).
 - **Link de contacto (ContactLink)**: un canal de contacto. Atributos: tipo (LinkedIn, GitHub,
   email), etiqueta visible, nombre accesible y destino (URL o dirección de email).
 - **Sección del portafolio (Section)**: una entrada de la navegación. Atributos: identificador
@@ -293,7 +302,7 @@ obligatorio y verificar que en desarrollo aparece un aviso y que la página no s
   `https://github.com/Tomasdmiguel` y foto original (retrato cuadrado 800×800, fondo con plantas
   y pared gris) guardada en `specs/001-hero-base/assets/foto-original.png` como material fuente.
 - **CV**: Tomás entregó el PDF el 2026-11-17; está en `public/cv/tomas-de-miguel-cv.pdf`.
-- **Tratamiento de la foto**: se resuelve en el plan (imagen procesada de antemano o efecto
+- **Tratamiento de la foto**: hoy no se usa (ver Session 2026-11-17). Si vuelve, se resuelve en el plan (imagen procesada de antemano o efecto
   aplicado en el navegador). El fondo de la foto original es muy detallado; el plan evalúa
   recortarla o simplificar el fondo para que el efecto de puntos se lea bien.
 - **Imagen para compartir y favicon**: se diseñan como parte de esta feature con la identidad

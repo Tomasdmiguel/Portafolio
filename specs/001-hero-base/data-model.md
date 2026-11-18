@@ -21,7 +21,7 @@ La información que muestra el Hero.
 | `availability` | string | sí | no vacío | `Disponible para trabajo remoto` |
 | `contactLinks` | ContactLink[] | sí | ≥ 1 ítem válido; tipos sin repetir | importado de `src/data/contactLinks.ts` |
 | `cv` | Resume | sí | `href` empieza con `/` y termina en `.pdf` | ver abajo |
-| `photo` | ProfilePhoto | sí | ver abajo | ver abajo |
+| `photo` | ProfilePhoto | no (sin foto desde 2026-11-17) | ver abajo | se valida solo si está |
 
 ### ContactLink (`src/data/contactLinks.ts`)
 

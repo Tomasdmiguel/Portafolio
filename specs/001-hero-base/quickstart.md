@@ -35,7 +35,7 @@ En Chrome DevTools (modo dispositivo), viewports **360×740**, **768×1024**, **
 **740×360** (móvil horizontal):
 
 - [ ] En 360×740, 768×1024 y 1280×800, sin scrollear se ven: nombre (h1), rol, stack
-      "React · TypeScript · Next.js", ubicación + disponibilidad, foto, LinkedIn, GitHub, Email y
+      "React · TypeScript · Next.js", ubicación + disponibilidad, foto (solo si el perfil tiene), LinkedIn, GitHub, Email y
       "Ver CV".
 - [ ] En 740×360 (dos columnas): nombre, rol y "Ver CV" se ven sin scrollear; el resto puede
       requerir scroll vertical (FR-015).
@@ -48,7 +48,7 @@ En Chrome DevTools (modo dispositivo), viewports **360×740**, **768×1024**, **
 
 ## 3. Efecto dot-matrix (US2 · FR-008–FR-011 · SC-007)
 
-- [ ] Chrome actual: al scrollear, nombre y foto se desarman en puntos; el resto se desvanece.
+- [ ] Chrome actual: al scrollear, el nombre (y la foto, si hay) se desarma en puntos; el resto se desvanece.
       Al volver arriba, todo vuelve a verse nítido y opaco.
 - [ ] Mientras se desvanecen, los links siguen siendo clickeables.
 - [ ] DevTools → Rendering → **Emulate `prefers-reduced-motion: reduce`**: sin animación,
@@ -57,7 +57,7 @@ En Chrome DevTools (modo dispositivo), viewports **360×740**, **768×1024**, **
       `@supports` en DevTools): contenido completo y estático, nada con opacidad 0.
 - [ ] DevTools → Network → bloquear `GeistPixel-Square.woff2`: el nombre se lee con
       `monospace`, sin saltos grandes de layout; "á" se ve bien.
-- [ ] Bloquear la foto: aparece el bloque "TDM" del mismo tamaño.
+- [ ] (Solo con foto) Bloquear la foto: aparece el bloque "TDM" del mismo tamaño.
 
 ## 4. Al compartir (US3 · FR-017–FR-019 · SC-005)
 

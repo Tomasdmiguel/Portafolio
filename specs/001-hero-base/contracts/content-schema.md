@@ -43,7 +43,7 @@ export interface Profile {
   availability: string;
   contactLinks: readonly ContactLink[];
   cv: Resume;
-  photo: ProfilePhoto;
+  photo?: ProfilePhoto; // opcional: sin foto, el Hero va en una columna
 }
 
 export type SectionId =
