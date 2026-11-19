@@ -4,7 +4,15 @@ Portafolio personal de Tomás De Miguel, Frontend Developer Semi Senior (Tandil,
 Producción: <https://tomasdmiguel.vercel.app>
 
 Identidad pixel/dot-matrix: el nombre en Geist Pixel se "desarma" en puntos al
-scrollear con animaciones CSS ligadas al scroll, sin JavaScript de animación.
+scrollear y los títulos de sección se "arman" al entrar, con animaciones CSS ligadas al scroll,
+sin JavaScript de animación.
+
+## Secciones
+
+| Sección | Contenido en |
+|---|---|
+| Inicio (Hero) | `src/data/profile.ts` |
+| Sobre mí | `src/data/about.ts` (párrafos y datos rápidos; sin párrafos, la sección y su link se ocultan) |
 
 ## Stack
 
@@ -28,7 +36,7 @@ scrollear con animaciones CSS ligadas al scroll, sin JavaScript de animación.
 
 ```text
 src/
-├── data/        # contenido (perfil, links, secciones, meta del sitio): se edita acá, no en componentes
+├── data/        # contenido (perfil, sobre mí, secciones, meta del sitio): se edita acá, no en componentes
 ├── types/       # tipos del contenido
 ├── lib/         # validación pura + tests
 ├── components/  # layout, secciones y UI
