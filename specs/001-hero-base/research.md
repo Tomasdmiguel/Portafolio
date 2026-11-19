@@ -95,6 +95,8 @@ Assumptions). Versiones verificadas en npm el 2026-11-12.
 
 ## R5. Espacio de scroll mientras el Hero es la única sección
 
+> **Reemplazado por [002 R3](../002-sobre-mi/research.md#r3-layout-de-la-primera-pantalla-y-del-recorrido-de-scroll)**: con "Sobre mí" (`min-h-svh`) el pie deja de necesitar el alto de pantalla.
+
 - **Decision**: el pie de página tiene `min-h-svh` y su contenido se alinea abajo. Así el hero
   puede salir completo del viewport y el rango `exit` de `view()` se recorre entero.
 - **Rationale**: con solo hero + pie chico no hay scroll suficiente y la animación quedaría a
@@ -194,6 +196,8 @@ Assumptions). Versiones verificadas en npm el 2026-11-12.
   (prohibidos). En 360 px da 44 px: "Tomás De Miguel" entra en dos líneas sin desbordar.
 
 ## R12. Navegación y layout
+
+> **Actualizado por [002 R2](../002-sobre-mi/research.md#r2-navegación)**: la navegación lista todas las secciones con contenido, incluida "Inicio", cuando hay 2 o más.
 
 - **Decision**: `src/data/sections.ts` es el registro de secciones (`id`, `label`, `hasContent`).
   `SiteHeader` muestra la marca (nombre, enlace a `#inicio`) y los links de las secciones con

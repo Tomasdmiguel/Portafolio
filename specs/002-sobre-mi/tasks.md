@@ -55,7 +55,7 @@ separado.
 ### Layout de la primera pantalla (R3)
 
 - [ ] T006 Agregar en `src/index.css` la `@utility hero-screen { min-height: calc(100svh - --spacing(15)); }`; si `--spacing()` no compila dentro de `calc()`, usar el plan B del plan: token `--header-h` en `@theme static`
-- [ ] T007 Darle al header altura fija `h-15` (en lugar de `min-h-11` + `py-2`) en `src/components/SiteHeader.tsx`, manteniendo las áreas táctiles de 44 px
+- [ ] T007 Darle al header altura fija en `src/components/SiteHeader.tsx`: reemplazar el `py-2` del `<header>` por `h-15`; los links mantienen `min-h-11` (áreas táctiles de 44 px)
 - [ ] T008 Cambiar `flex-1` por `hero-screen` en el contenedor del Hero en `src/components/sections/Hero.tsx`, sin tocar el resto del layout con o sin foto
 - [ ] T009 Reestructurar `src/App.tsx`: sacar el contenedor `flex min-h-svh flex-col`; quedan `<SiteHeader/>`, `<main>` (por ahora solo con el Hero en su `ErrorBoundary`) y `<SiteFooter/>`
 - [ ] T010 Verificar en 360×740, 1280×800 y 740×360 que el Hero sigue ocupando la primera pantalla junto con el header, igual que en la 001 (quickstart §2, último ítem)
@@ -90,7 +90,7 @@ separado.
 anuncia junto a su etiqueta; vaciar un `value` lo oculta y avisa en DEV.
 
 - [ ] T017 [US2] Agregar en `src/components/sections/About.tsx` el bloque `<dl>` con `<dt>`/`<dd>` a partir de `getValidFacts(about)`; no se renderiza si queda vacío; en el DOM va entre el título y los párrafos (R4)
-- [ ] T018 [US2] Layout en `src/components/sections/About.tsx`: apilado en móvil (datos y después párrafos); desde `md:` grilla de dos columnas con los párrafos a la izquierda (`max-w-prose`) y los datos a la derecha; etiquetas en Geist Mono con color secundario, valores con contraste AA
+- [ ] T018 [US2] Layout en `src/components/sections/About.tsx`: apilado en móvil (datos y después párrafos); desde `md:` grilla de dos columnas con los párrafos a la izquierda (`max-w-prose`) y los datos a la derecha, ubicados con `md:col-start-2 md:row-start-1` sin cambiar el orden del DOM; etiquetas en Geist Mono con color secundario, valores con contraste AA
 - [ ] T019 [US2] Verificar quickstart §2 (columnas en 1280, apilado en 360) y §5 (dato con `value: ''`)
 
 **Checkpoint**: US1 y US2 funcionan juntas.

@@ -209,8 +209,9 @@ estática desde el primer momento).
   - Busco: crecer como Software Engineer en equipos de afuera
 - **Sin imagen**: la sección va solo con texto (decisión de la feature 001, Session 2026-11-17).
 - **"Cómo trabajo"** es una feature posterior; hasta entonces, la mención queda como texto.
-- **Navegación**: se reutiliza la regla de la feature 001 (solo secciones existentes con
-  contenido; la navegación aparece cuando hay más de una).
+- **Navegación**: se mantiene la base de la feature 001 (solo secciones existentes con
+  contenido) con un cambio: la navegación lista todas, incluida "Inicio", y aparece cuando hay 2
+  o más.
 - **Animación**: el tipo exacto de entrada (por ejemplo, el título que se "arma" en puntos y el
   texto que aparece) se define en el plan, respetando FR-010 y la constitución (Principio V).
 - **Fuera de alcance**: "Cómo trabajo", Experiencia, Proyectos, Stack, Formación, Contacto y la

@@ -34,7 +34,7 @@ Decisiones técnicas de la feature 002. Se apoya en la base de la feature 001
 - **`hasContent` calculado**: la entrada `sobre-mi` de `sections.ts` toma `hasContent` de
   `hasAboutContent(about)` (al menos un párrafo con texto). Si el contenido se vacía, la sección
   y su link desaparecen juntos (FR-006) sin tocar `sections.ts`.
-- **Header**: altura fija `h-15` (60 px, lo que ya medía con `min-h-11` + `py-2`) y no fijo. En
+- **Header**: altura fija `h-15` (60 px, lo que ya medía: links de `min-h-11` + el `py-2` del header; los links mantienen `min-h-11`) y no fijo. En
   360 px "Tomás De Miguel" + "Inicio" + "Sobre mí" entran en una línea (≈ 290 px de 328 útiles).
   Con más secciones (features siguientes) hará falta un menú compacto en móvil: queda anotado
   como riesgo.
