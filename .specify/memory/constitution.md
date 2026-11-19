@@ -145,15 +145,19 @@ src/
 │   ├── ui/         → componentes reutilizables sin contenido propio (Button.tsx, Tag.tsx,
 │   │                 Card.tsx, SectionTitle.tsx)
 │   └── ErrorBoundary.tsx
-├── data/           → profile.ts, howIWork.ts, experience.ts, projects.ts, stack.ts,
-│                     education.ts, certifications.ts
+├── data/           → profile.ts, contactLinks.ts, about.ts, howIWork.ts, experience.ts,
+│                     projects.ts, stack.ts, education.ts, certifications.ts, más
+│                     site.ts (meta del sitio) y sections.ts (registro de la navegación)
 ├── types/          → content.ts (tipos de todas las entidades de data)
+├── lib/            → funciones puras (validación de la data) y sus tests (`*.test.ts`,
+│                     `node --test`); sin imports de assets ni de `import.meta`
 ├── assets/         → imágenes y logos
 ├── App.tsx         → solo compone las secciones
 ├── main.tsx
 └── index.css       → @import "tailwindcss", @theme con tokens, @utility y keyframes
                       de scroll-driven
-public/             → favicon, imagen Open Graph, CV en PDF
+public/             → favicon, imagen Open Graph, fuentes Geist Pixel, CV en PDF
+scripts/            → herramientas de desarrollo (p. ej. check-links.ts), fuera del bundle
 ```
 
 Reglas:
@@ -185,4 +189,4 @@ Reglas:
 - Cada `plan.md` incluye un "Constitution Check" contra los principios I–VI; toda excepción se
   justifica explícitamente allí.
 
-**Version**: 1.1.0 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-12
+**Version**: 1.1.1 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-19
