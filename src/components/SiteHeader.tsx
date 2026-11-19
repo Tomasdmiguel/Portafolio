@@ -6,18 +6,19 @@ interface SiteHeaderProps {
 }
 
 export function SiteHeader({ brand, sections }: SiteHeaderProps) {
-  // El Hero ya es la marca: la navegación solo lista las demás secciones con contenido.
-  const navItems = sections.filter((section) => section.hasContent && section.id !== 'inicio')
+  // Todas las secciones con contenido, incluida "Inicio"; con una sola no hace falta navegar (002 R2).
+  const navItems = sections.filter((section) => section.hasContent)
+  const showNav = navItems.length >= 2
 
   return (
-    <header className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-2 md:px-8">
+    <header className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 h-15 px-4 md:px-8">
       <a
         href="#inicio"
         className="inline-flex min-h-11 items-center text-sm font-medium text-fg transition-colors hover:text-accent"
       >
         {brand}
       </a>
-      {navItems.length > 0 && (
+      {showNav && (
         <nav aria-label="Secciones">
           <ul className="flex flex-wrap gap-1">
             {navItems.map((section) => (
