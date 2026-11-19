@@ -134,7 +134,7 @@ al subir; con "reducir movimiento" o en Firefox todo se ve quieto y completo.
 - [X] T028 [P] Revisar la jerarquía de títulos (un `h1` en el Hero, un `h2` en "Sobre mí") y el recorrido con teclado de toda la página (FR-015, SC-005)
 - [X] T029 [P] Actualizar `README.md` con la sección "Sobre mí" y dónde se edita su contenido (`src/data/about.ts`)
 - [ ] T030 Correr `npm run lint && npm run build && npm test` y Lighthouse en mobile y desktop: ≥ 90 en las 4 categorías y CLS < 0,1 (SC-003, SC-004)
-- [ ] T031 Abrir el PR de `002-sobre-mi` a `master`, revisar el preview de Vercel y, después del merge (sin squash), correr `npm run check:links` en producción
+- [X] T031 Abrir el PR de `002-sobre-mi` a `master`, revisar el preview de Vercel y, después del merge (sin squash), correr `npm run check:links` en producción
 - [ ] T032 Prueba de lectura con 5 personas sobre producción: lectura completa en < 1 min y datos rápidos en 10 s (SC-001, SC-002). La hace Tomás
 
 ---
@@ -150,7 +150,10 @@ al subir; con "reducir movimiento" o en Firefox todo se ve quieto y completo.
 - Con movimiento reducido: todo opaco y sin máscara.
 - Resiliencia: con `paragraphs: []` no aparecen la sección ni el `<nav>`; con un `throw` en
   `About`, el Hero, el header y el pie siguen.
-- Pendiente de T030: Lighthouse (mobile y desktop).
+- Pendiente de T030: confirmar Lighthouse (mobile y desktop) sobre producción.
+- Cierre (2026-11-19): PR #2 mergeado sin squash; en producción, `check:links` OK (LinkedIn 999,
+  verificado a mano) y la sección, la navegación, los 4 párrafos y los 4 datos se ven en 360 y
+  1280.
 
 ## Dependencies & Execution Order
 
