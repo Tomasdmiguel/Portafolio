@@ -44,6 +44,23 @@ export interface Profile {
   photo?: ProfilePhoto
 }
 
+/** Par escaneable del bloque de datos rápidos de "Sobre mí". */
+export interface QuickFact {
+  /** Corto: "Base", "Experiencia", "Enfoque", "Busco". */
+  label: string
+  value: string
+}
+
+/** Contenido de la sección "Sobre mí" (feature 002). */
+export interface About {
+  /** Texto del h2. */
+  title: string
+  /** En orden; los vacíos no se muestran. Sin párrafos con texto, la sección no aparece. */
+  paragraphs: readonly string[]
+  /** Puede estar vacío: la sección se muestra sin el bloque de datos. */
+  facts: readonly QuickFact[]
+}
+
 export type SectionId =
   | 'inicio'
   | 'sobre-mi'

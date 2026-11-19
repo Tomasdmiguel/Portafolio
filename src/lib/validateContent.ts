@@ -1,7 +1,9 @@
 // Funciones puras: sin import.meta ni imports de assets, para poder testearlas con node --test.
 import type {
+  About,
   ContactLink,
   Profile,
+  QuickFact,
   Resume,
   Section,
   SiteMeta,
@@ -108,6 +110,38 @@ export function validateSections(sections: readonly Section[]): ValidationIssue[
   if (!seen.has('inicio')) {
     issues.push({ path: 'sections', message: 'falta la sección "inicio"' })
   }
+
+  return issues
+}
+
+// ---- Sobre mí (feature 002) ----
+
+export function getValidParagraphs(about: About): string[] {
+  return about.paragraphs.filter((paragraph) => !isBlank(paragraph))
+}
+
+export function getValidFacts(about: About): QuickFact[] {
+  return about.facts.filter((fact) => !isBlank(fact.label) && !isBlank(fact.value))
+}
+
+/** Sin párrafos con texto, no se muestran ni la sección ni su link (FR-006). */
+export function hasAboutContent(about: About): boolean {
+  return getValidParagraphs(about).length > 0
+}
+
+export function validateAbout(about: About): ValidationIssue[] {
+  const issues: ValidationIssue[] = []
+  const add = (path: string, message: string) => issues.push({ path: `about.${path}`, message })
+
+  if (isBlank(about.title)) add('title', 'no puede estar vacío')
+  if (!hasAboutContent(about)) add('paragraphs', 'debe tener al menos 1 párrafo')
+  about.paragraphs.forEach((paragraph, i) => {
+    if (isBlank(paragraph)) add(`paragraphs[${i}]`, 'no puede estar vacío')
+  })
+  about.facts.forEach((fact, i) => {
+    if (isBlank(fact.label)) add(`facts[${i}].label`, 'no puede estar vacío')
+    if (isBlank(fact.value)) add(`facts[${i}].value`, 'no puede estar vacío')
+  })
 
   return issues
 }

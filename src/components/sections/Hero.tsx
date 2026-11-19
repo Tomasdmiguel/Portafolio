@@ -23,7 +23,7 @@ export function Hero({ profile }: HeroProps) {
     <section
       id="inicio"
       aria-labelledby="hero-title"
-      className={`hero-timeline mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-6 px-4 py-6 md:px-8 short:py-3 ${layout}`}
+      className={`hero-timeline mx-auto flex w-full max-w-6xl hero-screen flex-col justify-center gap-6 px-4 py-6 md:px-8 short:py-3 ${layout}`}
     >
       {photo && <ProfileImage photo={photo} className="motion-safe:dot-photo-dissolve" />}
 

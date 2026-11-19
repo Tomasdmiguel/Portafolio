@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict'
 import { describe, test } from 'node:test'
-import type { ContactLink, Profile, Section, SiteMeta } from '../types/content.ts'
+import { about } from '../data/about.ts'
+import type { About, ContactLink, Profile, Section, SiteMeta } from '../types/content.ts'
 import {
+  getValidFacts,
+  getValidParagraphs,
+  hasAboutContent,
+  validateAbout,
   getValidContactLinks,
   isValidContactLink,
   validateProfile,
@@ -118,5 +123,52 @@ describe('validateSections', () => {
 
   test('sin "inicio" genera un problema', () => {
     assert.ok(paths(validateSections([{ id: 'contacto', label: 'Contacto', hasContent: true }])).includes('sections'))
+  })
+})
+
+describe('about', () => {
+  const base: About = { title: 'Sobre mí', paragraphs: ['Uno', 'Dos'], facts: [{ label: 'Base', value: 'Tandil' }] }
+
+  test('el contenido real es válido', () => {
+    assert.deepEqual(validateAbout(about), [])
+  })
+
+  test('getValidParagraphs descarta los vacíos y conserva el orden', () => {
+    assert.deepEqual(getValidParagraphs({ ...base, paragraphs: ['Uno', '', '  ', 'Dos'] }), ['Uno', 'Dos'])
+  })
+
+  test('getValidFacts descarta datos sin etiqueta o sin valor', () => {
+    const facts = [
+      { label: 'Base', value: 'Tandil' },
+      { label: '', value: 'x' },
+      { label: 'Busco', value: ' ' },
+    ]
+    assert.deepEqual(getValidFacts({ ...base, facts }), [{ label: 'Base', value: 'Tandil' }])
+  })
+
+  test('hasAboutContent depende de que haya al menos un párrafo con texto', () => {
+    assert.equal(hasAboutContent({ ...base, paragraphs: [] }), false)
+    assert.equal(hasAboutContent({ ...base, paragraphs: ['', '  '] }), false)
+    assert.equal(hasAboutContent(base), true)
+  })
+
+  test('validateAbout reporta título, párrafos y datos inválidos', () => {
+    const issues = validateAbout({
+      title: ' ',
+      paragraphs: ['Uno', ''],
+      facts: [{ label: '', value: '' }],
+    })
+    assert.deepEqual(paths(issues), [
+      'about.title',
+      'about.paragraphs[1]',
+      'about.facts[0].label',
+      'about.facts[0].value',
+    ])
+    assert.ok(issues.every((issue) => issue.message === 'no puede estar vacío'))
+  })
+
+  test('sin párrafos con texto pide al menos uno', () => {
+    const issues = validateAbout({ ...base, paragraphs: [] })
+    assert.deepEqual(issues, [{ path: 'about.paragraphs', message: 'debe tener al menos 1 párrafo' }])
   })
 })
