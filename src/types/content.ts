@@ -120,6 +120,65 @@ export interface StackContent {
   groups: readonly StackGroup[]
 }
 
+/** Título de estudio (feature 005). Sin `end` = en curso. */
+export interface Degree {
+  title: string
+  institution: string
+  /** Ciudad; vacía no se muestra. */
+  location?: string
+  /** Año entero, 1900–2100. */
+  start: number
+  end?: number
+}
+
+/** Idioma con su nivel en texto (sin barras ni porcentajes). */
+export interface Language {
+  name: string
+  level: string
+  /** Aclaración corta (ej. "Lectura de documentación técnica"). */
+  detail?: string
+}
+
+/** Contenido de la sección "Formación" (feature 005). */
+export interface EducationContent {
+  /** Texto del h2. */
+  title: string
+  degreesLabel: string
+  languagesLabel: string
+  /** Fin de un título en curso. */
+  presentLabel: string
+  degrees: readonly Degree[]
+  languages: readonly Language[]
+}
+
+/** Categorías cerradas de certificaciones (constitución, Principio II). */
+export type CertificationCategory = 'ai' | 'english' | 'frontend' | 'backend'
+
+export interface Certification {
+  title: string
+  category: CertificationCategory
+  date: YearMonth
+  /** URL https de verificación. */
+  url: string
+}
+
+/** Certificaciones de "Formación". Agregar un certificado = editar solo `certifications.ts`. */
+export interface CertificationsContent {
+  /** Título del bloque. */
+  label: string
+  categoryLabels: Record<CertificationCategory, string>
+  /** Aviso solo para lectores de pantalla en los links. */
+  newTabHint: string
+  items: readonly Certification[]
+}
+
+/** Certificaciones válidas de una categoría, listas para mostrar. */
+export interface CertificationGroup {
+  category: CertificationCategory
+  label: string
+  items: Certification[]
+}
+
 export type SectionId =
   | 'inicio'
   | 'sobre-mi'

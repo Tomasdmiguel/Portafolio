@@ -1,6 +1,13 @@
 // Funciones puras: sin import.meta ni imports de assets, para poder testearlas con node --test.
 import type {
   About,
+  Certification,
+  CertificationCategory,
+  CertificationGroup,
+  CertificationsContent,
+  Degree,
+  EducationContent,
+  Language,
   ContactLink,
   Experience,
   ExperienceContent,
@@ -286,6 +293,108 @@ export function validateStack(content: StackContent): ValidationIssue[] {
       else if (seen.has(key)) add(`groups[${i}].items[${j}]`, 'está repetido')
       seen.add(key)
     })
+  })
+
+  return issues
+}
+
+// ---- Formación (feature 005) ----
+
+/** Orden fijo de los grupos (constitución: categorías cerradas). */
+export const CERTIFICATION_CATEGORIES: readonly CertificationCategory[] = ['ai', 'english', 'frontend', 'backend']
+
+const isValidYear = (year: number): boolean => Number.isInteger(year) && year >= 1900 && year <= 2100
+
+export function isValidDegree(degree: Degree): boolean {
+  if (isBlank(degree.title) || isBlank(degree.institution) || !isValidYear(degree.start)) return false
+  return degree.end === undefined || (isValidYear(degree.end) && degree.end >= degree.start)
+}
+
+export function isValidLanguage(language: Language): boolean {
+  return !isBlank(language.name) && !isBlank(language.level)
+}
+
+export function isValidCertification(item: Certification): boolean {
+  return (
+    !isBlank(item.title) &&
+    CERTIFICATION_CATEGORIES.includes(item.category) &&
+    isValidYearMonth(item.date) &&
+    isHttpsUrl(item.url)
+  )
+}
+
+export function getValidCertifications(content: CertificationsContent): Certification[] {
+  return content.items.filter(isValidCertification)
+}
+
+/** Grupos en orden IA → Inglés → Frontend → Backend, solo con ítems, de la más reciente a la más antigua. */
+export function getValidCertificationGroups(content: CertificationsContent): CertificationGroup[] {
+  const valid = getValidCertifications(content)
+  return CERTIFICATION_CATEGORIES.map((category) => ({
+    category,
+    label: content.categoryLabels[category],
+    items: valid
+      .filter((item) => item.category === category)
+      .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0)),
+  })).filter((group) => group.items.length > 0)
+}
+
+/** Con al menos un título, idioma o certificación válidos, la sección y su link se muestran (FR-008). */
+export function hasEducationContent(education: EducationContent, certifications: CertificationsContent): boolean {
+  return (
+    education.degrees.some(isValidDegree) ||
+    education.languages.some(isValidLanguage) ||
+    getValidCertifications(certifications).length > 0
+  )
+}
+
+export function validateEducation(education: EducationContent): ValidationIssue[] {
+  const issues: ValidationIssue[] = []
+  const add = (path: string, message: string) => issues.push({ path: `education.${path}`, message })
+
+  for (const key of ['title', 'degreesLabel', 'languagesLabel', 'presentLabel'] as const) {
+    if (isBlank(education[key])) add(key, 'no puede estar vacío')
+  }
+  education.degrees.forEach((degree, i) => {
+    if (isBlank(degree.title)) add(`degrees[${i}].title`, 'no puede estar vacío')
+    if (isBlank(degree.institution)) add(`degrees[${i}].institution`, 'no puede estar vacío')
+    const startOk = isValidYear(degree.start)
+    if (!startOk) add(`degrees[${i}].start`, 'debe ser un año entre 1900 y 2100')
+    if (degree.end !== undefined) {
+      if (!isValidYear(degree.end)) add(`degrees[${i}].end`, 'debe ser un año entre 1900 y 2100')
+      else if (startOk && degree.end < degree.start) add(`degrees[${i}].end`, 'no puede ser anterior al inicio')
+    }
+  })
+  education.languages.forEach((language, i) => {
+    if (isBlank(language.name)) add(`languages[${i}].name`, 'no puede estar vacío')
+    if (isBlank(language.level)) add(`languages[${i}].level`, 'no puede estar vacío')
+  })
+
+  return issues
+}
+
+export function validateCertifications(content: CertificationsContent): ValidationIssue[] {
+  const issues: ValidationIssue[] = []
+  const add = (path: string, message: string) => issues.push({ path: `certifications.${path}`, message })
+
+  for (const key of ['label', 'newTabHint'] as const) {
+    if (isBlank(content[key])) add(key, 'no puede estar vacío')
+  }
+  for (const category of CERTIFICATION_CATEGORIES) {
+    if (isBlank(content.categoryLabels[category])) add(`categoryLabels.${category}`, 'no puede estar vacío')
+  }
+
+  const seen = new Set<string>()
+  content.items.forEach((item, i) => {
+    const at = `items[${i}]`
+    if (isBlank(item.title)) add(`${at}.title`, 'no puede estar vacío')
+    if (!CERTIFICATION_CATEGORIES.includes(item.category)) {
+      add(`${at}.category`, 'debe ser ai, english, frontend o backend')
+    }
+    if (!isValidYearMonth(item.date)) add(`${at}.date`, 'debe tener formato YYYY-MM')
+    if (!isHttpsUrl(item.url)) add(`${at}.url`, 'debe ser una URL https')
+    else if (seen.has(item.url)) add(`${at}.url`, 'está repetida')
+    seen.add(item.url)
   })
 
   return issues

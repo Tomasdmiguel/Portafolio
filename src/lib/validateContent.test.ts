@@ -3,8 +3,13 @@ import { describe, test } from 'node:test'
 import { about } from '../data/about.ts'
 import { experience } from '../data/experience.ts'
 import { stack } from '../data/stack.ts'
+import { certifications } from '../data/certifications.ts'
+import { education } from '../data/education.ts'
 import type {
   About,
+  Certification,
+  CertificationsContent,
+  EducationContent,
   ContactLink,
   Experience,
   ExperienceContent,
@@ -14,6 +19,13 @@ import type {
   StackContent,
 } from '../types/content.ts'
 import {
+  getValidCertificationGroups,
+  hasEducationContent,
+  isValidCertification,
+  isValidDegree,
+  isValidLanguage,
+  validateCertifications,
+  validateEducation,
   getValidStackGroups,
   hasStackContent,
   validateStack,
@@ -364,5 +376,116 @@ describe('Stack (feature 004)', () => {
   test('sin categorías válidas pide al menos una', () => {
     const issues = validateStack({ ...content, groups: [] })
     assert.deepEqual(issues, [{ path: 'stack.groups', message: 'debe tener al menos 1 categoría válida' }])
+  })
+})
+
+describe('Formación (feature 005)', () => {
+  const degree = { title: 'Técnico', institution: 'Escuela', start: 2015, end: 2022 }
+  const edu: EducationContent = {
+    title: 'Formación',
+    degreesLabel: 'Título',
+    languagesLabel: 'Idiomas',
+    presentLabel: 'En curso',
+    degrees: [degree],
+    languages: [{ name: 'Inglés', level: 'Básico' }],
+  }
+  const cert: Certification = { title: 'Curso', category: 'frontend', date: '2025-03', url: 'https://platzi.com/p/x/' }
+  const certs: CertificationsContent = {
+    label: 'Certificaciones',
+    categoryLabels: { ai: 'IA', english: 'Inglés', frontend: 'Frontend', backend: 'Backend' },
+    newTabHint: '(abre en una pestaña nueva)',
+    items: [],
+  }
+
+  test('isValidDegree exige título, institución y años coherentes', () => {
+    assert.equal(isValidDegree(degree), true)
+    assert.equal(isValidDegree({ ...degree, end: undefined }), true)
+    assert.equal(isValidDegree({ ...degree, title: ' ' }), false)
+    assert.equal(isValidDegree({ ...degree, institution: '' }), false)
+    assert.equal(isValidDegree({ ...degree, start: 1899 }), false)
+    assert.equal(isValidDegree({ ...degree, start: 2015.5 }), false)
+    assert.equal(isValidDegree({ ...degree, end: 2014 }), false)
+  })
+
+  test('isValidLanguage exige nombre y nivel', () => {
+    assert.equal(isValidLanguage({ name: 'Inglés', level: 'Básico' }), true)
+    assert.equal(isValidLanguage({ name: '', level: 'Básico' }), false)
+    assert.equal(isValidLanguage({ name: 'Inglés', level: ' ' }), false)
+  })
+
+  test('isValidCertification valida título, categoría, fecha y URL https', () => {
+    assert.equal(isValidCertification(cert), true)
+    assert.equal(isValidCertification({ ...cert, title: '' }), false)
+    assert.equal(isValidCertification({ ...cert, category: 'design' as Certification['category'] }), false)
+    assert.equal(isValidCertification({ ...cert, date: '2025-13' }), false)
+    assert.equal(isValidCertification({ ...cert, url: 'http://platzi.com/p/x/' }), false)
+  })
+
+  test('getValidCertificationGroups ordena por categoría fija y fecha descendente', () => {
+    const groups = getValidCertificationGroups({
+      ...certs,
+      items: [
+        { ...cert, title: 'Front viejo', date: '2024-01' },
+        { ...cert, title: 'IA', category: 'ai' },
+        { ...cert, title: 'Front nuevo', date: '2025-06', url: 'https://platzi.com/p/y/' },
+        { ...cert, title: '' },
+      ],
+    })
+    assert.deepEqual(
+      groups.map((group) => [group.category, group.label, group.items.map((item) => item.title)]),
+      [
+        ['ai', 'IA', ['IA']],
+        ['frontend', 'Frontend', ['Front nuevo', 'Front viejo']],
+      ],
+    )
+  })
+
+  test('hasEducationContent con cualquiera de los tres bloques', () => {
+    const empty: EducationContent = { ...edu, degrees: [], languages: [] }
+    assert.equal(hasEducationContent(empty, certs), false)
+    assert.equal(hasEducationContent({ ...empty, languages: edu.languages }, certs), true)
+    assert.equal(hasEducationContent(empty, { ...certs, items: [cert] }), true)
+  })
+
+  test('el contenido real no tiene avisos', () => {
+    assert.deepEqual(validateEducation(education), [])
+    assert.deepEqual(validateCertifications(certifications), [])
+  })
+
+  test('validateEducation reporta campos vacíos y años inválidos', () => {
+    const issues = validateEducation({
+      ...edu,
+      title: '',
+      degrees: [{ title: '', institution: '', start: 3000, end: 2000 }],
+      languages: [{ name: '', level: '' }],
+    })
+    assert.deepEqual(paths(issues), [
+      'education.title',
+      'education.degrees[0].title',
+      'education.degrees[0].institution',
+      'education.degrees[0].start',
+      'education.languages[0].name',
+      'education.languages[0].level',
+    ])
+    const valid = validateEducation({ ...edu, degrees: [{ ...degree, end: 2010 }] })
+    assert.deepEqual(valid, [{ path: 'education.degrees[0].end', message: 'no puede ser anterior al inicio' }])
+  })
+
+  test('validateCertifications reporta campos inválidos y URLs repetidas', () => {
+    const issues = validateCertifications({
+      ...certs,
+      items: [
+        cert,
+        { title: '', category: 'x' as Certification['category'], date: '2025-1' as Certification['date'], url: 'ftp://x' },
+        { ...cert, title: 'Otro' },
+      ],
+    })
+    assert.deepEqual(issues, [
+      { path: 'certifications.items[1].title', message: 'no puede estar vacío' },
+      { path: 'certifications.items[1].category', message: 'debe ser ai, english, frontend o backend' },
+      { path: 'certifications.items[1].date', message: 'debe tener formato YYYY-MM' },
+      { path: 'certifications.items[1].url', message: 'debe ser una URL https' },
+      { path: 'certifications.items[2].url', message: 'está repetida' },
+    ])
   })
 })

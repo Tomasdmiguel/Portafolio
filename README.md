@@ -15,6 +15,7 @@ sin JavaScript de animación.
 | Sobre mí | `src/data/about.ts` (párrafos y datos rápidos; sin párrafos, la sección y su link se ocultan) |
 | Experiencia | `src/data/experience.ts` (puestos, logros y tecnologías; sin experiencias válidas, la sección y su link se ocultan) |
 | Stack | `src/data/stack.ts` (categorías de tecnologías; sin categorías válidas, la sección y su link se ocultan) |
+| Formación | `src/data/education.ts` (título e idiomas) y `src/data/certifications.ts` (certificados; para agregar uno se suma un ítem con título, categoría `ai`/`english`/`frontend`/`backend`, fecha `YYYY-MM` y URL de verificación) |
 
 ## Stack
 
@@ -32,13 +33,13 @@ sin JavaScript de animación.
 | `npm run preview` | Sirve `dist/` en <http://localhost:4173> |
 | `npm run lint` | ESLint sobre `.ts` y `.tsx` |
 | `npm test` | Tests de `src/lib/` con `node --test` |
-| `npm run check:links` | Verifica LinkedIn, GitHub, CV e imagen OG. Acepta una URL base: `npm run check:links -- https://<preview>.vercel.app` |
+| `npm run check:links` | Verifica LinkedIn, GitHub, CV, imagen OG y certificados. Acepta una URL base: `npm run check:links -- https://<preview>.vercel.app` |
 
 ## Estructura
 
 ```text
 src/
-├── data/        # contenido (perfil, sobre mí, experiencia, stack, secciones, meta del sitio): se edita acá, no en componentes
+├── data/        # contenido (perfil, sobre mí, experiencia, stack, formación, certificaciones, secciones, meta del sitio): se edita acá, no en componentes
 ├── types/       # tipos del contenido
 ├── lib/         # validación pura + tests
 ├── components/  # layout, secciones y UI
