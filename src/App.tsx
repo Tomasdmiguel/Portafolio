@@ -2,10 +2,13 @@ import { ErrorBoundary } from './components/ErrorBoundary.tsx'
 import { SiteFooter } from './components/SiteFooter.tsx'
 import { SiteHeader } from './components/SiteHeader.tsx'
 import { About } from './components/sections/About.tsx'
+import { Education } from './components/sections/Education.tsx'
 import { Experience } from './components/sections/Experience.tsx'
 import { Hero } from './components/sections/Hero.tsx'
 import { Stack } from './components/sections/Stack.tsx'
 import { about } from './data/about.ts'
+import { certifications } from './data/certifications.ts'
+import { education } from './data/education.ts'
 import { experience } from './data/experience.ts'
 import { profile } from './data/profile.ts'
 import { navLabels, sections } from './data/sections.ts'
@@ -13,6 +16,8 @@ import { site } from './data/site.ts'
 import { stack } from './data/stack.ts'
 import {
   validateAbout,
+  validateCertifications,
+  validateEducation,
   validateExperience,
   validateProfile,
   validateSections,
@@ -29,6 +34,8 @@ if (import.meta.env.DEV) {
     ...validateAbout(about),
     ...validateExperience(experience),
     ...validateStack(stack),
+    ...validateEducation(education),
+    ...validateCertifications(certifications),
   ]
   for (const issue of issues) console.warn('[contenido]', issue.path, issue.message)
 }
@@ -50,6 +57,9 @@ export default function App() {
         </ErrorBoundary>
         <ErrorBoundary name="Stack">
           <Stack stack={stack} />
+        </ErrorBoundary>
+        <ErrorBoundary name="Formación">
+          <Education education={education} certifications={certifications} />
         </ErrorBoundary>
       </main>
       <SiteFooter copyright={site.copyright} />
