@@ -33,5 +33,4 @@
 
 - Las tecnologías listadas son el contenido de la sección (lo que se muestra), no decisiones de
   implementación.
-- El contenido sale del CV (Principio II): Tomás lo revisa antes de `/speckit-plan`, en especial
-  si "Claude Code" se nombra o no.
+- El contenido sale del CV (Principio II) y Tomás lo aprobó el 2026-11-24, sin marcas de IA.

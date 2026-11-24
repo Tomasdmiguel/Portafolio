@@ -170,11 +170,11 @@ teclado; la página se posiciona en la sección.
   2. **Estado y datos**: Redux, Zustand, Context API, TanStack Query, APIs REST.
   3. **Formularios y validación**: React Hook Form, Zod, Yup.
   4. **IA aplicada** (destacada): AI-Driven Development, Spec-Driven Development, Desarrollo
-     agéntico, Claude Code.
+     agéntico.
   5. **Herramientas**: Git, GitHub, GitLab, Docker, Figma, Jira, Scrum.
   6. **Backend** (nota: "Conocimientos"): Node.js, Express, NestJS, Supabase, PostgreSQL.
-- **Claude Code** aparece como herramienta del stack, igual que Git o Docker, porque figura en el
-  CV; si Tomás prefiere no nombrar marcas de IA, se quita de la data sin tocar la spec.
+- **Sin marcas de IA**: por decisión de Tomás (2026-11-24), "IA aplicada" no nombra herramientas
+  ni productos de IA, aunque figuren en el CV.
 - **Sin niveles ni porcentajes**: no se muestran barras de nivel ni años por tecnología (no son
   verificables); el único matiz de nivel es la nota de Backend.
 - **Sin íconos ni logos de tecnologías**: se mantiene la estética pixel con etiquetas de texto;
