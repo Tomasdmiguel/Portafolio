@@ -10,6 +10,18 @@ export interface ContactLink {
   href: string
 }
 
+/** Textos de la sección "Contacto" (feature 007); los links y el CV son los del Hero. */
+export interface ContactContent {
+  /** Texto del h2. */
+  title: string
+  /** Frase de cierre destacada. */
+  heading: string
+  message: string
+  copyLabel: string
+  /** Confirmación tras copiar el email. */
+  copiedLabel: string
+}
+
 export interface Resume {
   label: string
   ariaLabel: string

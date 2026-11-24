@@ -1,5 +1,5 @@
 // Sin imports de assets: lo lee scripts/check-links.ts en Node.
-import type { ContactLink } from '../types/content.ts'
+import type { ContactContent, ContactLink } from '../types/content.ts'
 
 export const contactLinks: readonly ContactLink[] = [
   {
@@ -21,3 +21,13 @@ export const contactLinks: readonly ContactLink[] = [
     href: 'mailto:dev.tomasdmiguel@gmail.com',
   },
 ]
+
+/** Textos de "Contacto" (spec 007, Assumptions). Los links son los de arriba; el CV, el del perfil. */
+export const contact: ContactContent = {
+  title: 'Contacto',
+  heading: '¿Hablamos?',
+  message:
+    'Estoy disponible para trabajo remoto y busco crecer como Software Engineer en equipos de afuera. Si tenés una propuesta, escribime.',
+  copyLabel: 'Copiar email',
+  copiedLabel: 'Email copiado',
+}

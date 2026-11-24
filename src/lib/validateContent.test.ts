@@ -3,6 +3,7 @@ import { describe, test } from 'node:test'
 import { about } from '../data/about.ts'
 import { experience } from '../data/experience.ts'
 import { stack } from '../data/stack.ts'
+import { contact } from '../data/contactLinks.ts'
 import { certifications } from '../data/certifications.ts'
 import { education } from '../data/education.ts'
 import type {
@@ -19,6 +20,9 @@ import type {
   StackContent,
 } from '../types/content.ts'
 import {
+  getEmailAddress,
+  hasContactContent,
+  validateContact,
   getValidCertificationGroups,
   hasEducationContent,
   isValidCertification,
@@ -502,6 +506,28 @@ describe('Formación (feature 005)', () => {
       { path: 'certifications.items[1].date', message: 'debe tener formato YYYY-MM' },
       { path: 'certifications.items[1].url', message: 'debe ser una URL https' },
       { path: 'certifications.items[2].url', message: 'está repetida' },
+    ])
+  })
+})
+
+describe('Contacto (feature 007)', () => {
+  test('getEmailAddress devuelve la dirección del primer email válido', () => {
+    assert.equal(getEmailAddress(links), 'x@example.com')
+    assert.equal(getEmailAddress(links.filter((link) => link.kind !== 'email')), null)
+    assert.equal(getEmailAddress([{ ...links[2]!, href: 'mailto:roto' }]), null)
+  })
+
+  test('hasContactContent es false sin links válidos', () => {
+    assert.equal(hasContactContent([]), false)
+    assert.equal(hasContactContent([{ ...links[0]!, href: 'http://inseguro' }]), false)
+    assert.equal(hasContactContent(links), true)
+  })
+
+  test('validateContact: el contenido real no tiene avisos y reporta textos vacíos', () => {
+    assert.deepEqual(validateContact(contact), [])
+    assert.deepEqual(paths(validateContact({ ...contact, heading: ' ', copiedLabel: '' })), [
+      'contact.heading',
+      'contact.copiedLabel',
     ])
   })
 })

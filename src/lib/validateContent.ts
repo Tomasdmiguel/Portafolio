@@ -1,6 +1,7 @@
 // Funciones puras: sin import.meta ni imports de assets, para poder testearlas con node --test.
 import type {
   About,
+  ContactContent,
   Certification,
   CertificationCategory,
   CertificationGroup,
@@ -404,5 +405,26 @@ export function validateCertifications(content: CertificationsContent): Validati
     seen.add(item.url)
   })
 
+  return issues
+}
+
+// ---- Contacto (feature 007) ----
+
+/** Dirección del primer link de email válido, sin `mailto:`; `null` si no hay. */
+export function getEmailAddress(links: readonly ContactLink[]): string | null {
+  const email = getValidContactLinks(links).find((link) => link.kind === 'email')
+  return email ? email.href.slice('mailto:'.length) : null
+}
+
+/** Con al menos un link válido, la sección y su link se muestran (FR-006). */
+export function hasContactContent(links: readonly ContactLink[]): boolean {
+  return getValidContactLinks(links).length > 0
+}
+
+export function validateContact(contact: ContactContent): ValidationIssue[] {
+  const issues: ValidationIssue[] = []
+  for (const key of ['title', 'heading', 'message', 'copyLabel', 'copiedLabel'] as const) {
+    if (isBlank(contact[key])) issues.push({ path: `contact.${key}`, message: 'no puede estar vacío' })
+  }
   return issues
 }
