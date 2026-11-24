@@ -48,8 +48,8 @@ description: "Lista de tareas de la feature 005 (Formación)"
 
 - [X] T015 [P] Revisar jerarquía de títulos (h1 → h2 → h3 → h4) y teclado
 - [X] T016 [P] `README.md`: fila "Formación | `src/data/education.ts` y `src/data/certifications.ts`" y cómo agregar un certificado
-- [ ] T017 Lint, build, tests; Lighthouse ≥ 90 sobre el preview (Tomás, DevTools)
-- [ ] T018 Tomás commitea, abre el PR y mergea sin squash; `npm run check:links` en producción
+- [X] T017 Lint, build, tests; Lighthouse ≥ 90 sobre el preview (Tomás, DevTools)
+- [X] T018 Tomás commitea, abre el PR y mergea sin squash; `npm run check:links` en producción
 - [X] T019 Cargar en `certifications.ts` los 32 certificados del perfil de Platzi (rama `006-certificaciones`, después del merge de la 005)
 - [X] T020 Clarificación 2026-11-24: 5 más recientes por categoría + `<details>` "Ver los N"; total y link al perfil en la cabecera del bloque (`CertificationsContent` suma `previewCount`, `countLabel`, `showAllLabel`, `profile`); `check:links` incluye el perfil y trata el 403 de Platzi como aviso
 
@@ -83,3 +83,9 @@ constitución.
 1. Fases 1–2, US1 (MVP con título e idiomas).
 2. US2 (certificaciones, probadas con datos de prueba), US3, US4.
 3. Polish, PR y deploy.
+
+## Cierre (2026-11-24)
+
+PR mergeado sin squash. En producción, con todas las secciones: Lighthouse 100 en Performance,
+Accessibility, Best Practices y SEO (captura de Tomás) y `check:links` OK (LinkedIn y Platzi se
+verifican a mano porque bloquean bots). Queda pendiente la prueba de lectura con 5 personas.

@@ -119,8 +119,8 @@ Escape y tocando fuera; en 768 px los links van en línea; `/#experiencia` abre 
 
 - [X] T021 [P] Revisar la jerarquía de títulos (un `h1`, un `h2` por sección, `h3` por puesto) y el recorrido con teclado de toda la página
 - [X] T022 [P] Actualizar `README.md`: sumar la fila "Experiencia | `src/data/experience.ts`" a la tabla de secciones
-- [ ] T023 Correr `npm run lint && npm run build && npm test` y Lighthouse en mobile y desktop: ≥ 90 en las 4 categorías y CLS < 0,1 (SC-002, SC-003)
-- [ ] T024 Tomás commitea y abre el PR de `003-experiencia` a `master`; revisar el preview de Vercel, correr `npm run check:links -- https://<preview>.vercel.app` y, después del merge (sin squash), en producción
+- [X] T023 Correr `npm run lint && npm run build && npm test` y Lighthouse en mobile y desktop: ≥ 90 en las 4 categorías y CLS < 0,1 (SC-002, SC-003)
+- [X] T024 Tomás commitea y abre el PR de `003-experiencia` a `master`; revisar el preview de Vercel, correr `npm run check:links -- https://<preview>.vercel.app` y, después del merge (sin squash), en producción
 - [ ] T025 Prueba de lectura con 5 personas sobre producción: en 10 s dicen dónde trabaja Tomás, desde cuándo y un logro (SC-001). La hace Tomás
 
 ---
@@ -198,3 +198,9 @@ Task: "T017–T019 navegación en src/data/sections.ts, src/App.tsx y src/compon
 2. US2 → línea de tiempo y animación.
 3. US3 → navegación con menú móvil; a partir de acá el header escala a las secciones siguientes.
 4. Polish → Lighthouse, README, PR y deploy.
+
+## Cierre (2026-11-24)
+
+PR mergeado sin squash. En producción, con todas las secciones: Lighthouse 100 en Performance,
+Accessibility, Best Practices y SEO (captura de Tomás) y `check:links` OK (LinkedIn y Platzi se
+verifican a mano porque bloquean bots). Queda pendiente la prueba de lectura con 5 personas.

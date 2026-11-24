@@ -83,8 +83,8 @@ etiquetas; "Backend" con "Conocimientos"; con `groups: []` la sección no aparec
 
 - [X] T015 [P] Revisar la jerarquía de títulos (un `h1`, `h2` por sección, `h3` por categoría y por puesto) y el recorrido con teclado
 - [X] T016 [P] Actualizar `README.md`: fila "Stack | `src/data/stack.ts`" en la tabla de secciones y "stack" en el comentario de `data/`
-- [ ] T017 Correr `npm run lint && npm run build && npm test`; Lighthouse ≥ 90 en las 4 categorías y CLS < 0,1 sobre el preview (lo corre Tomás desde DevTools, porque el preview está protegido) (SC-002, SC-003)
-- [ ] T018 Tomás commitea y abre el PR de `004-stack` a `master`; después del merge (sin squash), `npm run check:links` en producción
+- [X] T017 Correr `npm run lint && npm run build && npm test`; Lighthouse ≥ 90 en las 4 categorías y CLS < 0,1 sobre el preview (lo corre Tomás desde DevTools, porque el preview está protegido) (SC-002, SC-003)
+- [X] T018 Tomás commitea y abre el PR de `004-stack` a `master`; después del merge (sin squash), `npm run check:links` en producción
 - [ ] T019 Prueba de lectura con 5 personas: en 10 s nombran 3 tecnologías de frontend y que trabaja con IA (SC-001). La hace Tomás
 
 ---
@@ -124,3 +124,9 @@ Corrido en el mismo paso que plan y tareas, a pedido de Tomás: 12 FR y 5 SC con
 1. Fases 1 y 2, después US1 (MVP): **parar y validar** que la sección se lee.
 2. US2 y US3 (destaque y animación) y US4 (navegación).
 3. Polish: README, Lighthouse, PR y deploy.
+
+## Cierre (2026-11-24)
+
+PR mergeado sin squash. En producción, con todas las secciones: Lighthouse 100 en Performance,
+Accessibility, Best Practices y SEO (captura de Tomás) y `check:links` OK (LinkedIn y Platzi se
+verifican a mano porque bloquean bots). Queda pendiente la prueba de lectura con 5 personas.

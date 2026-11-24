@@ -43,7 +43,7 @@ description: "Lista de tareas de la feature 008 (Ajuste visual)"
 ## Phase 7: Polish
 
 - [X] T019 Lint, build, tests; sin scroll horizontal en 360, 640×400, 740×360, 768, 1280
-- [ ] T020 Tomás commitea, abre el PR, corre Lighthouse en el preview y mergea; `check:links` en producción
+- [X] T020 Tomás commitea, abre el PR, corre Lighthouse en el preview y mergea; `check:links` en producción
 
 ## Análisis (2026-11-24)
 
@@ -60,3 +60,9 @@ En el mismo paso que plan y tareas: 8 FR cubiertos; sin conflictos con la consti
 - Header fijo; la sección activa cambia al scrollear (Stack, Contacto) con `aria-current`.
 - `press` compila dentro de `prefers-reduced-motion: no-preference`.
 - Pendiente: T020 (PR, Lighthouse en el preview y merge).
+
+## Cierre (2026-11-24)
+
+PR mergeado sin squash. En producción, con todas las secciones: Lighthouse 100 en Performance,
+Accessibility, Best Practices y SEO (captura de Tomás) y `check:links` OK (LinkedIn y Platzi se
+verifican a mano porque bloquean bots). Queda pendiente la prueba de lectura con 5 personas.

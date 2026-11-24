@@ -40,8 +40,8 @@ description: "Lista de tareas de la feature 007 (Contacto)"
 
 - [X] T013 [P] Jerarquía de títulos, teclado y resiliencia (quickstart §5)
 - [X] T014 [P] `README.md`: fila "Contacto | `src/data/contactLinks.ts`"
-- [ ] T015 Lint, build, tests; Lighthouse sobre el preview (Tomás)
-- [ ] T016 Tomás commitea, abre el PR y mergea; `check:links` en producción
+- [X] T015 Lint, build, tests; Lighthouse sobre el preview (Tomás)
+- [X] T016 Tomás commitea, abre el PR y mergea; `check:links` en producción
 
 ## Análisis (2026-11-24)
 
@@ -66,3 +66,9 @@ pasa: hay 3 links válidos).
 
 Fase 2 → US1 → US2 (T008 antes de que `Contact` lo use; se puede hacer en paralelo con T006) →
 US3/US4 → Polish.
+
+## Cierre (2026-11-24)
+
+PR mergeado sin squash. En producción, con todas las secciones: Lighthouse 100 en Performance,
+Accessibility, Best Practices y SEO (captura de Tomás) y `check:links` OK (LinkedIn y Platzi se
+verifican a mano porque bloquean bots). Queda pendiente la prueba de lectura con 5 personas.
