@@ -394,6 +394,9 @@ describe('Formación (feature 005)', () => {
     label: 'Certificaciones',
     categoryLabels: { ai: 'IA', english: 'Inglés', frontend: 'Frontend', backend: 'Backend' },
     newTabHint: '(abre en una pestaña nueva)',
+    previewCount: 5,
+    countLabel: 'cursos aprobados',
+    showAllLabel: 'Ver los',
     items: [],
   }
 
@@ -469,6 +472,19 @@ describe('Formación (feature 005)', () => {
     ])
     const valid = validateEducation({ ...edu, degrees: [{ ...degree, end: 2010 }] })
     assert.deepEqual(valid, [{ path: 'education.degrees[0].end', message: 'no puede ser anterior al inicio' }])
+  })
+
+  test('validateCertifications valida previewCount y el perfil', () => {
+    const issues = validateCertifications({
+      ...certs,
+      previewCount: 0,
+      profile: { label: ' ', url: 'http://platzi.com/p/x/' },
+    })
+    assert.deepEqual(paths(issues), [
+      'certifications.previewCount',
+      'certifications.profile.label',
+      'certifications.profile.url',
+    ])
   })
 
   test('validateCertifications reporta campos inválidos y URLs repetidas', () => {

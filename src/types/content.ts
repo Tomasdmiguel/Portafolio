@@ -169,6 +169,14 @@ export interface CertificationsContent {
   categoryLabels: Record<CertificationCategory, string>
   /** Aviso solo para lectores de pantalla en los links. */
   newTabHint: string
+  /** Cuántas se ven por categoría; el resto va en un desplegable. Entero ≥ 1. */
+  previewCount: number
+  /** Texto después del total (ej. "32 cursos aprobados"). */
+  countLabel: string
+  /** Texto del desplegable antes de la cantidad (ej. "Ver los 22"). */
+  showAllLabel: string
+  /** Perfil público con todos los certificados; abre en pestaña nueva. */
+  profile?: { label: string; url: string }
   items: readonly Certification[]
 }
 

@@ -6,6 +6,8 @@ import { site } from '../src/data/site.ts'
 import { getValidCertifications } from '../src/lib/validateContent.ts'
 
 const LINKEDIN_BLOCKED = 999 // LinkedIn responde 999 a clientes automáticos.
+// Platzi responde 403 a clientes automáticos; los diplomas abren bien en el navegador (spec 005).
+const isPlatziBlocked = (url: string, code: number) => code === 403 && new URL(url).hostname === 'platzi.com'
 
 const arg = process.argv[2] ?? site.siteUrl
 let base: string
@@ -24,6 +26,7 @@ const checks: { url: string; type?: string }[] = [
   { url: `${base}/cv/tomas-de-miguel-cv.pdf`, type: 'application/pdf' },
   { url: `${base}${site.ogImage}`, type: 'image/png' },
   // Certificados (spec 005, FR-014).
+  ...(certifications.profile ? [{ url: certifications.profile.url }] : []),
   ...getValidCertifications(certifications).map((item) => ({ url: item.url })),
 ]
 
@@ -45,6 +48,8 @@ for (const { url, type } of checks) {
     const contentType = response.headers.get('content-type') ?? ''
     if (code === LINKEDIN_BLOCKED) {
       console.log(`⚠️  ${code}  ${url}  (LinkedIn bloquea bots: verificar a mano)`)
+    } else if (isPlatziBlocked(url, code)) {
+      console.log(`⚠️  ${code}  ${url}  (Platzi bloquea bots: verificar a mano)`)
     } else if (code >= 400) {
       failed++
       console.log(`❌ ${code}  ${url}`)
