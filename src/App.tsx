@@ -4,17 +4,20 @@ import { SiteHeader } from './components/SiteHeader.tsx'
 import { About } from './components/sections/About.tsx'
 import { Experience } from './components/sections/Experience.tsx'
 import { Hero } from './components/sections/Hero.tsx'
+import { Stack } from './components/sections/Stack.tsx'
 import { about } from './data/about.ts'
 import { experience } from './data/experience.ts'
 import { profile } from './data/profile.ts'
 import { navLabels, sections } from './data/sections.ts'
 import { site } from './data/site.ts'
+import { stack } from './data/stack.ts'
 import {
   validateAbout,
   validateExperience,
   validateProfile,
   validateSections,
   validateSite,
+  validateStack,
 } from './lib/validateContent.ts'
 
 // Principio V: en desarrollo se valida cada archivo de src/data/ una vez, al cargar el módulo.
@@ -25,6 +28,7 @@ if (import.meta.env.DEV) {
     ...validateSections(sections),
     ...validateAbout(about),
     ...validateExperience(experience),
+    ...validateStack(stack),
   ]
   for (const issue of issues) console.warn('[contenido]', issue.path, issue.message)
 }
@@ -43,6 +47,9 @@ export default function App() {
         </ErrorBoundary>
         <ErrorBoundary name="Experiencia">
           <Experience experience={experience} />
+        </ErrorBoundary>
+        <ErrorBoundary name="Stack">
+          <Stack stack={stack} />
         </ErrorBoundary>
       </main>
       <SiteFooter copyright={site.copyright} />

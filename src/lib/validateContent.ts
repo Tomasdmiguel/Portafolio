@@ -10,6 +10,8 @@ import type {
   Resume,
   Section,
   SiteMeta,
+  StackContent,
+  StackGroup,
   ValidationIssue,
   YearMonth,
 } from '../types/content.ts'
@@ -228,6 +230,61 @@ export function validateExperience(content: ExperienceContent): ValidationIssue[
     })
     item.tech.forEach((tech, j) => {
       if (isBlank(tech)) add(`${at}.tech[${j}]`, 'no puede estar vacío')
+    })
+  })
+
+  return issues
+}
+
+// ---- Stack (feature 004) ----
+
+const normalize = (value: string): string => value.trim().toLowerCase()
+
+/** Ítems sin vacíos ni repetidos (sin distinguir mayúsculas); queda la primera aparición, recortada (R5). */
+function getValidItems(group: StackGroup): string[] {
+  const seen = new Set<string>()
+  const items: string[] = []
+  for (const item of group.items) {
+    const key = normalize(item)
+    if (key === '' || seen.has(key)) continue
+    seen.add(key)
+    items.push(item.trim())
+  }
+  return items
+}
+
+/** Categorías con nombre y al menos 1 tecnología válida, en el orden de la data. */
+export function getValidStackGroups(content: StackContent): StackGroup[] {
+  return content.groups
+    .filter((group) => !isBlank(group.name))
+    .map((group) => ({ ...group, items: getValidItems(group) }))
+    .filter((group) => group.items.length > 0)
+}
+
+/** Sin categorías válidas, no se muestran ni la sección ni su link (FR-006). */
+export function hasStackContent(content: StackContent): boolean {
+  return getValidStackGroups(content).length > 0
+}
+
+export function validateStack(content: StackContent): ValidationIssue[] {
+  const issues: ValidationIssue[] = []
+  const add = (path: string, message: string) => issues.push({ path: `stack.${path}`, message })
+
+  if (isBlank(content.title)) add('title', 'no puede estar vacío')
+  if (!hasStackContent(content)) add('groups', 'debe tener al menos 1 categoría válida')
+  if (content.groups.filter((group) => group.featured).length > 1) {
+    add('groups', 'solo una categoría puede estar destacada')
+  }
+
+  content.groups.forEach((group, i) => {
+    if (isBlank(group.name)) add(`groups[${i}].name`, 'no puede estar vacío')
+    if (group.items.length === 0) add(`groups[${i}].items`, 'debe tener al menos 1 tecnología')
+    const seen = new Set<string>()
+    group.items.forEach((item, j) => {
+      const key = normalize(item)
+      if (key === '') add(`groups[${i}].items[${j}]`, 'no puede estar vacío')
+      else if (seen.has(key)) add(`groups[${i}].items[${j}]`, 'está repetido')
+      seen.add(key)
     })
   })
 

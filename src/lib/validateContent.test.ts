@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { describe, test } from 'node:test'
 import { about } from '../data/about.ts'
 import { experience } from '../data/experience.ts'
+import { stack } from '../data/stack.ts'
 import type {
   About,
   ContactLink,
@@ -10,8 +11,12 @@ import type {
   Profile,
   Section,
   SiteMeta,
+  StackContent,
 } from '../types/content.ts'
 import {
+  getValidStackGroups,
+  hasStackContent,
+  validateStack,
   formatMonth,
   getValidExperiences,
   hasExperienceContent,
@@ -299,5 +304,65 @@ describe('Experiencia (feature 003)', () => {
       { path: 'experience.items[0].highlights', message: 'se muestran hasta 4 logros' },
       { path: 'experience.items[0].highlights[0]', message: 'debe tener hasta 20 palabras' },
     ])
+  })
+})
+
+describe('Stack (feature 004)', () => {
+  const content: StackContent = {
+    title: 'Stack',
+    groups: [
+      { name: 'Frontend', items: ['React', 'TypeScript'] },
+      { name: 'Backend', note: 'Conocimientos', items: ['Node.js'] },
+    ],
+  }
+
+  test('getValidStackGroups filtra categorías inválidas y limpia ítems vacíos y repetidos', () => {
+    const result = getValidStackGroups({
+      ...content,
+      groups: [
+        { name: 'Frontend', items: ['React', ' react ', '', 'Zod', 'ZOD', '  Vite  '] },
+        { name: ' ', items: ['Git'] },
+        { name: 'Vacía', items: ['', ' '] },
+        { name: 'Backend', items: ['Node.js'] },
+      ],
+    })
+    assert.deepEqual(
+      result.map((group) => group.name),
+      ['Frontend', 'Backend'],
+    )
+    assert.deepEqual(result[0]?.items, ['React', 'Zod', 'Vite'])
+  })
+
+  test('hasStackContent es false sin categorías válidas', () => {
+    assert.equal(hasStackContent({ ...content, groups: [] }), false)
+    assert.equal(hasStackContent({ ...content, groups: [{ name: 'X', items: [''] }] }), false)
+    assert.equal(hasStackContent(content), true)
+  })
+
+  test('el contenido real no tiene avisos', () => {
+    assert.deepEqual(validateStack(stack), [])
+  })
+
+  test('validateStack reporta nombres, ítems vacíos, repetidos y destacados de más', () => {
+    const issues = validateStack({
+      title: '',
+      groups: [
+        { name: '', featured: true, items: [] },
+        { name: 'Frontend', featured: true, items: ['React', '', 'react'] },
+      ],
+    })
+    assert.deepEqual(issues, [
+      { path: 'stack.title', message: 'no puede estar vacío' },
+      { path: 'stack.groups', message: 'solo una categoría puede estar destacada' },
+      { path: 'stack.groups[0].name', message: 'no puede estar vacío' },
+      { path: 'stack.groups[0].items', message: 'debe tener al menos 1 tecnología' },
+      { path: 'stack.groups[1].items[1]', message: 'no puede estar vacío' },
+      { path: 'stack.groups[1].items[2]', message: 'está repetido' },
+    ])
+  })
+
+  test('sin categorías válidas pide al menos una', () => {
+    const issues = validateStack({ ...content, groups: [] })
+    assert.deepEqual(issues, [{ path: 'stack.groups', message: 'debe tener al menos 1 categoría válida' }])
   })
 })
