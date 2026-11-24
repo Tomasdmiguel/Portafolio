@@ -64,9 +64,7 @@ export interface About {
 export type SectionId =
   | 'inicio'
   | 'sobre-mi'
-  | 'como-trabajo'
   | 'experiencia'
-  | 'proyectos'
   | 'stack'
   | 'formacion'
   | 'contacto'
