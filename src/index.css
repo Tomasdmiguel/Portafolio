@@ -28,6 +28,12 @@
   --color-muted: #a1a1a1;
   --color-accent: #ffb000;
   --color-accent-fg: #0a0a0a;
+  /* Ajuste visual (feature 008, R1): grilla de fondo, bordes marcados y sombras duras. */
+  --color-grid-line: #1f1f1f;
+  --color-border-strong: #3d3d3d;
+
+  --shadow-hard: 4px 4px 0 0 var(--color-border-strong);
+  --shadow-hard-accent: 4px 4px 0 0 var(--color-accent);
 
   --font-sans: 'Geist Variable', system-ui, sans-serif;
   --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
@@ -41,6 +47,7 @@
 
 /* Tokens del efecto de puntos: siempre emitidos porque los usan @utility y @keyframes. */
 @theme static {
+  --grid-cell: 2rem;
   --dot-cell: 6px;
   --dot-r-rest: 2.2px;
 }
@@ -57,6 +64,11 @@
     color-scheme: dark;
   }
 
+  /* Las anclas dejan el título visible debajo del header fijo (008 R6). */
+  html {
+    scroll-padding-top: --spacing(16);
+  }
+
   /* Scroll suave al navegar por anclas, solo si no se pidió reducir el movimiento (FR-008). */
   @media (prefers-reduced-motion: no-preference) {
     html {
@@ -65,7 +77,7 @@
   }
 
   body {
-    @apply bg-bg font-sans text-fg antialiased;
+    @apply bg-bg graph-paper font-sans text-fg antialiased;
   }
 
   :focus-visible {
@@ -246,5 +258,28 @@
     animation: timeline-draw linear both;
     animation-timeline: view();
     animation-range: entry 0% entry 100%;
+  }
+}
+
+/* ---- Ajuste visual (feature 008) ---- */
+
+/* Hoja cuadriculada sutil de fondo (R2). */
+@utility graph-paper {
+  background-image:
+    linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
+  background-size: var(--grid-cell) var(--grid-cell);
+}
+
+/* Botones con sombra dura: se "levantan" al pasar el mouse y se "hunden" al hacer clic (R7). */
+@utility press {
+  transition-property: translate, box-shadow, color, background-color, border-color;
+  transition-duration: 150ms;
+  &:hover {
+    translate: -2px -2px;
+  }
+  &:active {
+    translate: 4px 4px;
+    box-shadow: none;
   }
 }
