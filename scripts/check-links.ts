@@ -1,7 +1,9 @@
 // Verifica los links del sitio antes de cada deploy (Principio V, research R9).
 // Uso: npm run check:links [-- https://<preview>.vercel.app]   (sin argumento: producción)
+import { certifications } from '../src/data/certifications.ts'
 import { contactLinks } from '../src/data/contactLinks.ts'
 import { site } from '../src/data/site.ts'
+import { getValidCertifications } from '../src/lib/validateContent.ts'
 
 const LINKEDIN_BLOCKED = 999 // LinkedIn responde 999 a clientes automáticos.
 
@@ -21,6 +23,8 @@ const checks: { url: string; type?: string }[] = [
   ...contactLinks.filter((link) => link.kind !== 'email').map((link) => ({ url: link.href })),
   { url: `${base}/cv/tomas-de-miguel-cv.pdf`, type: 'application/pdf' },
   { url: `${base}${site.ogImage}`, type: 'image/png' },
+  // Certificados (spec 005, FR-014).
+  ...getValidCertifications(certifications).map((item) => ({ url: item.url })),
 ]
 
 async function probe(url: string): Promise<Response> {
