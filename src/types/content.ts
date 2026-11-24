@@ -61,12 +61,50 @@ export interface About {
   facts: readonly QuickFact[]
 }
 
+/** Mes en formato `YYYY-MM` (ej. `'2024-09'`). */
+export type YearMonth = `${number}-${number}`
+
+/** Logro de una experiencia: `lead` es el dato destacado al inicio de la frase. */
+export interface Highlight {
+  lead?: string
+  text: string
+}
+
+/** Un puesto de trabajo (feature 003). Sin `end` = puesto actual. */
+export interface Experience {
+  role: string
+  company: string
+  /** Rubro de la empresa; vacío no se muestra. */
+  industry?: string
+  start: YearMonth
+  end?: YearMonth
+  /** Ej.: "Remoto". */
+  modality: string
+  /** Frase de contexto. */
+  summary?: string
+  /** Se muestran hasta 4 válidos. */
+  highlights: readonly Highlight[]
+  tech: readonly string[]
+}
+
+/** Contenido de la sección "Experiencia" (feature 003). */
+export interface ExperienceContent {
+  /** Texto del h2. */
+  title: string
+  /** Texto visible del marcador del puesto actual ("Actual"). */
+  currentLabel: string
+  /** Fin de un período abierto ("Actualidad"). */
+  presentLabel: string
+  /** Nombre accesible de la lista de tecnologías. */
+  techLabel: string
+  /** Se muestran las válidas, de la más reciente a la más antigua. */
+  items: readonly Experience[]
+}
+
 export type SectionId =
   | 'inicio'
   | 'sobre-mi'
-  | 'como-trabajo'
   | 'experiencia'
-  | 'proyectos'
   | 'stack'
   | 'formacion'
   | 'contacto'
@@ -75,6 +113,14 @@ export interface Section {
   id: SectionId
   label: string
   hasContent: boolean
+}
+
+/** Textos de la navegación del header. */
+export interface NavLabels {
+  /** Nombre accesible del `<nav>`. */
+  nav: string
+  /** Texto visible del botón del menú móvil. */
+  menu: string
 }
 
 export interface SiteMeta {

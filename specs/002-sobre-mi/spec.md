@@ -33,8 +33,8 @@ en 1280px: tiene el título, los 4 párrafos en orden y se lee en menos de 1 min
 2. **Given** la sección en pantalla, **When** el visitante la lee, **Then** el texto está en
    primera persona y en español, y no repite la lista de tareas del CV.
 3. **Given** el párrafo que menciona la forma de trabajar con IA, **When** el visitante lo lee,
-   **Then** el texto remite a la sección "Cómo trabajo" para el detalle, sin enlazar a una
-   sección que todavía no existe.
+   **Then** el texto lo menciona en una oración, sin remitir a otra sección (enmienda 1.2.0 de
+   la constitución: "Cómo trabajo" se eliminó).
 
 ---
 
@@ -130,8 +130,8 @@ estática desde el primer momento).
   título visible "Sobre mí" de segundo nivel y un ancla `#sobre-mi`.
 - **FR-002**: La sección MUST mostrar, en este orden, los 4 párrafos acordados (ver Assumptions →
   Contenido), en primera persona y en español.
-- **FR-003**: El párrafo sobre la forma de trabajar con IA MUST mencionar "Cómo trabajo" como
-  texto; se convierte en link cuando esa sección exista (feature propia).
+- **FR-003**: El párrafo sobre la forma de trabajar con IA MUST mencionarla en una oración, sin
+  remitir a otra sección (el detalle de la IA como skill va en Stack).
 - **FR-004**: La sección MUST incluir un bloque de datos rápidos con 4 pares etiqueta–valor:
   Base, Experiencia, Enfoque y Busco (valores en Assumptions), con la relación etiqueta–valor
   expuesta a tecnologías de asistencia.
@@ -197,8 +197,8 @@ estática desde el primer momento).
      a una pantalla me atraía. En la técnica descubrí la programación y me enganché con el
      ambiente: la forma de pensar los problemas y la gente que los resuelve. Lo que más disfruto
      es crear: tomar una idea y llevarla hasta algo que se vea y se sienta bien."
-  3. "Trabajo con IA de forma agéntica y escribo especificaciones antes del código (lo cuento en
-     detalle en Cómo trabajo)."
+  3. "Trabajo con IA de forma agéntica y escribo especificaciones antes del código."
+     (ajustado el 2026-11-24 al eliminar "Cómo trabajo")
   4. "Mi próximo paso es crecer como Software Engineer, mejorar mi inglés y trabajar con equipos
      de afuera. Fuera del código, juego y le dedico tiempo a mi setup."
 - **Datos rápidos** (derivados del CV y de las respuestas de Tomás; se pueden ajustar en el
@@ -208,11 +208,10 @@ estática desde el primer momento).
   - Enfoque: Frontend · AI-Driven Development
   - Busco: crecer como Software Engineer en equipos de afuera
 - **Sin imagen**: la sección va solo con texto (decisión de la feature 001, Session 2026-11-17).
-- **"Cómo trabajo"** es una feature posterior; hasta entonces, la mención queda como texto.
 - **Navegación**: se mantiene la base de la feature 001 (solo secciones existentes con
   contenido) con un cambio: la navegación lista todas, incluida "Inicio", y aparece cuando hay 2
   o más.
 - **Animación**: el tipo exacto de entrada (por ejemplo, el título que se "arma" en puntos y el
   texto que aparece) se define en el plan, respetando FR-010 y la constitución (Principio V).
-- **Fuera de alcance**: "Cómo trabajo", Experiencia, Proyectos, Stack, Formación, Contacto y la
+- **Fuera de alcance**: Experiencia, Stack, Formación, Contacto y la
   versión en inglés.

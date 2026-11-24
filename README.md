@@ -13,6 +13,7 @@ sin JavaScript de animación.
 |---|---|
 | Inicio (Hero) | `src/data/profile.ts` |
 | Sobre mí | `src/data/about.ts` (párrafos y datos rápidos; sin párrafos, la sección y su link se ocultan) |
+| Experiencia | `src/data/experience.ts` (puestos, logros y tecnologías; sin experiencias válidas, la sección y su link se ocultan) |
 
 ## Stack
 
@@ -36,7 +37,7 @@ sin JavaScript de animación.
 
 ```text
 src/
-├── data/        # contenido (perfil, sobre mí, secciones, meta del sitio): se edita acá, no en componentes
+├── data/        # contenido (perfil, sobre mí, experiencia, secciones, meta del sitio): se edita acá, no en componentes
 ├── types/       # tipos del contenido
 ├── lib/         # validación pura + tests
 ├── components/  # layout, secciones y UI

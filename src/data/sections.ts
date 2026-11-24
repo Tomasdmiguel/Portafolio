@@ -1,6 +1,7 @@
-import { hasAboutContent } from '../lib/validateContent.ts'
-import type { Section } from '../types/content.ts'
+import { hasAboutContent, hasExperienceContent } from '../lib/validateContent.ts'
+import type { NavLabels, Section } from '../types/content.ts'
 import { about } from './about.ts'
+import { experience } from './experience.ts'
 
 /**
  * Registro de secciones para la navegación, en el orden de la página. Cada feature nueva agrega
@@ -9,4 +10,8 @@ import { about } from './about.ts'
 export const sections: readonly Section[] = [
   { id: 'inicio', label: 'Inicio', hasContent: true },
   { id: 'sobre-mi', label: 'Sobre mí', hasContent: hasAboutContent(about) },
+  { id: 'experiencia', label: 'Experiencia', hasContent: hasExperienceContent(experience) },
 ]
+
+/** Textos de la navegación del header (Principio II: sin texto en el componente). */
+export const navLabels: NavLabels = { nav: 'Secciones', menu: 'Menú' }
