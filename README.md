@@ -2,10 +2,7 @@
 
 Portafolio personal de Tomás De Miguel, Frontend Developer Semi Senior (Tandil, Argentina).
 Producción: <https://tomasdmiguel.vercel.app>
-
-Identidad pixel/dot-matrix: el nombre en Geist Pixel se "desarma" en puntos al
-scrollear y los títulos de sección se "arman" al entrar, con animaciones CSS ligadas al scroll,
-sin JavaScript de animación.
+ 
 
 ## Secciones
 
