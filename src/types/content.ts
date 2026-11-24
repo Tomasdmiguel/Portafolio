@@ -101,6 +101,25 @@ export interface ExperienceContent {
   items: readonly Experience[]
 }
 
+/** Categoría de "Stack" (feature 004). */
+export interface StackGroup {
+  name: string
+  /** Aclaración corta de nivel (ej. "Conocimientos"); vacía no se muestra. */
+  note?: string
+  /** Destacada con el acento ámbar; como máximo una. */
+  featured?: boolean
+  /** Sin vacías ni repetidas; sin ítems válidos, la categoría no se muestra. */
+  items: readonly string[]
+}
+
+/** Contenido de la sección "Stack" (feature 004). */
+export interface StackContent {
+  /** Texto del h2. */
+  title: string
+  /** En orden; se muestran las válidas. */
+  groups: readonly StackGroup[]
+}
+
 export type SectionId =
   | 'inicio'
   | 'sobre-mi'
