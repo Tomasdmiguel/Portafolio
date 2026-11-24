@@ -22,9 +22,9 @@ export function Education({ education, certifications }: EducationProps) {
       aria-labelledby="formacion-title"
       className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-16 md:px-8"
     >
-      <SectionTitle id="formacion-title">{education.title}</SectionTitle>
+      <SectionTitle id="formacion-title" file={education.file}>{education.title}</SectionTitle>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         {degrees.length > 0 && (
           <Card title={education.degreesLabel}>
             {degrees.map((degree) => (

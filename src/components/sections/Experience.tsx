@@ -19,7 +19,7 @@ export function Experience({ experience }: ExperienceProps) {
       aria-labelledby="experiencia-title"
       className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-16 md:px-8"
     >
-      <SectionTitle id="experiencia-title">{experience.title}</SectionTitle>
+      <SectionTitle id="experiencia-title" file={experience.file}>{experience.title}</SectionTitle>
 
       {/* Línea de tiempo: línea de puntos decorativa que se dibuja al scrollear (R4). */}
       <div className="relative">

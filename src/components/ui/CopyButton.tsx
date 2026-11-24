@@ -39,7 +39,7 @@ export function CopyButton({ value, label, copiedLabel }: CopyButtonProps) {
     <button
       type="button"
       onClick={copy}
-      className="inline-flex min-h-11 min-w-40 items-center justify-center rounded-md border border-border px-5 text-sm font-medium text-fg transition-colors hover:border-accent hover:text-accent"
+      className="inline-flex min-h-11 min-w-40 items-center justify-center border border-border-strong bg-surface px-5 text-sm font-medium text-fg shadow-hard transition-colors hover:border-accent hover:text-accent motion-safe:press"
     >
       <span aria-live="polite">{copied ? copiedLabel : label}</span>
     </button>

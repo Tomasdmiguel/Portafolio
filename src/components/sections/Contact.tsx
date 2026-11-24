@@ -3,6 +3,7 @@ import type { ContactContent, ContactLink, Resume } from '../../types/content.ts
 import { Button } from '../ui/Button.tsx'
 import { ContactLinks } from '../ui/ContactLinks.tsx'
 import { CopyButton } from '../ui/CopyButton.tsx'
+import { Keycap } from '../ui/Keycap.tsx'
 import { SectionTitle } from '../ui/SectionTitle.tsx'
 
 interface ContactProps {
@@ -28,10 +29,17 @@ export function Contact({ contact, links, cv }: ContactProps) {
       aria-labelledby="contacto-title"
       className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-24 md:px-8"
     >
-      <SectionTitle id="contacto-title">{contact.title}</SectionTitle>
+      <SectionTitle id="contacto-title" file={contact.file}>{contact.title}</SectionTitle>
 
       <div className="flex flex-col gap-4 motion-safe:reveal">
-        <p className="text-4xl font-medium text-balance text-fg md:text-6xl">{contact.heading}</p>
+        <div className="flex items-center gap-6">
+          <p className="text-4xl font-medium text-balance text-fg md:text-6xl">{contact.heading}</p>
+          {contact.keycap && contact.keycap.trim() !== '' && (
+            <span aria-hidden="true" className="hidden sm:inline-flex">
+              <Keycap className="rotate-6 text-accent">{contact.keycap}</Keycap>
+            </span>
+          )}
+        </div>
         <p className="max-w-prose text-base text-pretty text-muted md:text-lg">{contact.message}</p>
       </div>
 

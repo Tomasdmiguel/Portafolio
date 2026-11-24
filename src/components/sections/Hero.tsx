@@ -2,6 +2,7 @@ import { getValidContactLinks, isValidResumeHref } from '../../lib/validateConte
 import type { Profile } from '../../types/content.ts'
 import { Button } from '../ui/Button.tsx'
 import { ContactLinks } from '../ui/ContactLinks.tsx'
+import { Keycap } from '../ui/Keycap.tsx'
 import { ProfileImage } from '../ui/ProfileImage.tsx'
 
 interface HeroProps {
@@ -9,7 +10,8 @@ interface HeroProps {
 }
 
 export function Hero({ profile }: HeroProps) {
-  const { name, role, stack, location, availability, contactLinks, cv, photo } = profile
+  const { name, role, stack, location, availability, contactLinks, cv, photo, keycaps = [] } = profile
+  const keys = keycaps.filter((key) => key.trim() !== '').slice(0, 3)
   // En producción, la data inválida se oculta en vez de romper la página (FR-022).
   const validLinks = getValidContactLinks(contactLinks)
   const showCv = isValidResumeHref(cv.href)
@@ -23,9 +25,32 @@ export function Hero({ profile }: HeroProps) {
     <section
       id="inicio"
       aria-labelledby="hero-title"
-      className={`hero-timeline mx-auto flex w-full max-w-6xl hero-screen flex-col justify-center gap-6 px-4 py-6 md:px-8 short:py-3 ${layout}`}
+      className={`hero-timeline relative mx-auto flex w-full max-w-6xl hero-screen flex-col justify-center gap-6 px-4 py-6 md:px-8 short:py-3 ${layout}`}
     >
       {photo && <ProfileImage photo={photo} className="motion-safe:dot-photo-dissolve" />}
+
+      {/* Teclas decorativas a la derecha desde lg, sin foto (008 R5). Se desvanecen con el Hero. */}
+      {!photo && keys.length > 0 && (
+        <div
+          aria-hidden="true"
+          className="absolute top-1/2 right-16 hidden -translate-y-1/2 grid-cols-2 gap-6 motion-safe:hero-fade lg:grid"
+        >
+          {keys.map((key, i) => (
+            <Keycap
+              key={key}
+              className={`lg:h-24 lg:min-w-24 lg:text-3xl ${
+                i === 0
+                  ? 'col-span-2 -rotate-6 justify-self-center text-accent'
+                  : i === 1
+                    ? 'rotate-3 text-fg'
+                    : 'rotate-12 border-accent text-accent'
+              }`}
+            >
+              {key}
+            </Keycap>
+          ))}
+        </div>
+      )}
 
       <div className="flex flex-col gap-5 short:gap-3">
         <h1 id="hero-title" className="font-pixel text-display text-accent motion-safe:dot-dissolve short:text-5xl">
