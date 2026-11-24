@@ -377,8 +377,15 @@ export function validateCertifications(content: CertificationsContent): Validati
   const issues: ValidationIssue[] = []
   const add = (path: string, message: string) => issues.push({ path: `certifications.${path}`, message })
 
-  for (const key of ['label', 'newTabHint'] as const) {
+  for (const key of ['label', 'newTabHint', 'countLabel', 'showAllLabel'] as const) {
     if (isBlank(content[key])) add(key, 'no puede estar vacío')
+  }
+  if (!Number.isInteger(content.previewCount) || content.previewCount < 1) {
+    add('previewCount', 'debe ser un entero mayor o igual a 1')
+  }
+  if (content.profile) {
+    if (isBlank(content.profile.label)) add('profile.label', 'no puede estar vacío')
+    if (!isHttpsUrl(content.profile.url)) add('profile.url', 'debe ser una URL https')
   }
   for (const category of CERTIFICATION_CATEGORIES) {
     if (isBlank(content.categoryLabels[category])) add(`categoryLabels.${category}`, 'no puede estar vacío')
