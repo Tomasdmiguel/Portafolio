@@ -13,6 +13,7 @@ Producción: <https://tomasdmiguel.vercel.app>
 | Experiencia | `src/data/experience.ts` (puestos, logros y tecnologías; sin experiencias válidas, la sección y su link se ocultan) |
 | Stack | `src/data/stack.ts` (categorías de tecnologías; sin categorías válidas, la sección y su link se ocultan) |
 | Formación | `src/data/education.ts` (título e idiomas) y `src/data/certifications.ts` (certificados; para agregar uno se suma un ítem con título, categoría `ai`/`english`/`frontend`/`backend`, fecha `YYYY-MM` y URL de verificación) |
+| Contacto | `src/data/contactLinks.ts` (textos de cierre en `contact`; email, LinkedIn y GitHub compartidos con el Hero; el CV sale de `profile.ts`) |
 
 ## Stack
 

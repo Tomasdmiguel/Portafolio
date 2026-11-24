@@ -1,7 +1,14 @@
-import { hasAboutContent, hasEducationContent, hasExperienceContent, hasStackContent } from '../lib/validateContent.ts'
+import {
+  hasAboutContent,
+  hasContactContent,
+  hasEducationContent,
+  hasExperienceContent,
+  hasStackContent,
+} from '../lib/validateContent.ts'
 import type { NavLabels, Section } from '../types/content.ts'
 import { about } from './about.ts'
 import { certifications } from './certifications.ts'
+import { contactLinks } from './contactLinks.ts'
 import { education } from './education.ts'
 import { experience } from './experience.ts'
 import { stack } from './stack.ts'
@@ -20,6 +27,7 @@ export const sections: readonly Section[] = [
     label: 'Formación',
     hasContent: hasEducationContent(education, certifications),
   },
+  { id: 'contacto', label: 'Contacto', hasContent: hasContactContent(contactLinks) },
 ]
 
 /** Textos de la navegación del header (Principio II: sin texto en el componente). */

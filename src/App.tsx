@@ -2,12 +2,14 @@ import { ErrorBoundary } from './components/ErrorBoundary.tsx'
 import { SiteFooter } from './components/SiteFooter.tsx'
 import { SiteHeader } from './components/SiteHeader.tsx'
 import { About } from './components/sections/About.tsx'
+import { Contact } from './components/sections/Contact.tsx'
 import { Education } from './components/sections/Education.tsx'
 import { Experience } from './components/sections/Experience.tsx'
 import { Hero } from './components/sections/Hero.tsx'
 import { Stack } from './components/sections/Stack.tsx'
 import { about } from './data/about.ts'
 import { certifications } from './data/certifications.ts'
+import { contact, contactLinks } from './data/contactLinks.ts'
 import { education } from './data/education.ts'
 import { experience } from './data/experience.ts'
 import { profile } from './data/profile.ts'
@@ -17,6 +19,7 @@ import { stack } from './data/stack.ts'
 import {
   validateAbout,
   validateCertifications,
+  validateContact,
   validateEducation,
   validateExperience,
   validateProfile,
@@ -36,6 +39,7 @@ if (import.meta.env.DEV) {
     ...validateStack(stack),
     ...validateEducation(education),
     ...validateCertifications(certifications),
+    ...validateContact(contact),
   ]
   for (const issue of issues) console.warn('[contenido]', issue.path, issue.message)
 }
@@ -60,6 +64,9 @@ export default function App() {
         </ErrorBoundary>
         <ErrorBoundary name="Formación">
           <Education education={education} certifications={certifications} />
+        </ErrorBoundary>
+        <ErrorBoundary name="Contacto">
+          <Contact contact={contact} links={contactLinks} cv={profile.cv} />
         </ErrorBoundary>
       </main>
       <SiteFooter copyright={site.copyright} />
