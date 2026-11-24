@@ -8,6 +8,7 @@ export const profile: Profile = {
   location: 'Tandil, Argentina',
   availability: 'Disponible para trabajo remoto',
   contactLinks,
+  keycaps: ['</>', '{ }', 'AI'],
   cv: {
     label: 'Ver CV',
     ariaLabel: 'Ver CV en PDF (se abre en una pestaña nueva)',

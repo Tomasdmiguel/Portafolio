@@ -25,9 +25,11 @@ export const contactLinks: readonly ContactLink[] = [
 /** Textos de "Contacto" (spec 007, Assumptions). Los links son los de arriba; el CV, el del perfil. */
 export const contact: ContactContent = {
   title: 'Contacto',
+  file: 'contacto.sh',
   heading: '¿Hablamos?',
   message:
     'Estoy disponible para trabajo remoto y busco crecer como Software Engineer en equipos de afuera. Si tenés una propuesta, escribime.',
   copyLabel: 'Copiar email',
   copiedLabel: 'Email copiado',
+  keycap: 'Enter ↵',
 }

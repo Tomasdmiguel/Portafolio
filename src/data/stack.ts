@@ -3,6 +3,7 @@ import type { StackContent } from '../types/content.ts'
 /** Contenido de "Stack" (spec 004, Assumptions; del CV, sin marcas de IA). Para editar la sección, se cambia solo este archivo. */
 export const stack: StackContent = {
   title: 'Stack',
+  file: 'stack.json',
   groups: [
     {
       name: 'Frontend',

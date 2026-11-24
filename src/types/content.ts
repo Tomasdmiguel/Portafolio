@@ -14,12 +14,16 @@ export interface ContactLink {
 export interface ContactContent {
   /** Texto del h2. */
   title: string
+  /** Etiqueta decorativa tipo archivo sobre el título (feature 008). */
+  file?: string
   /** Frase de cierre destacada. */
   heading: string
   message: string
   copyLabel: string
   /** Confirmación tras copiar el email. */
   copiedLabel: string
+  /** Tecla decorativa junto a la frase de cierre (feature 008). */
+  keycap?: string
 }
 
 export interface Resume {
@@ -54,6 +58,8 @@ export interface Profile {
   cv: Resume
   /** Opcional: sin foto, el Hero se arma en una sola columna. */
   photo?: ProfilePhoto
+  /** Teclas decorativas del Hero desde md (feature 008). */
+  keycaps?: readonly string[]
 }
 
 /** Par escaneable del bloque de datos rápidos de "Sobre mí". */
@@ -67,6 +73,8 @@ export interface QuickFact {
 export interface About {
   /** Texto del h2. */
   title: string
+  /** Etiqueta decorativa tipo archivo sobre el título (feature 008). */
+  file?: string
   /** En orden; los vacíos no se muestran. Sin párrafos con texto, la sección no aparece. */
   paragraphs: readonly string[]
   /** Puede estar vacío: la sección se muestra sin el bloque de datos. */
@@ -103,6 +111,8 @@ export interface Experience {
 export interface ExperienceContent {
   /** Texto del h2. */
   title: string
+  /** Etiqueta decorativa tipo archivo sobre el título (feature 008). */
+  file?: string
   /** Texto visible del marcador del puesto actual ("Actual"). */
   currentLabel: string
   /** Fin de un período abierto ("Actualidad"). */
@@ -128,6 +138,8 @@ export interface StackGroup {
 export interface StackContent {
   /** Texto del h2. */
   title: string
+  /** Etiqueta decorativa tipo archivo sobre el título (feature 008). */
+  file?: string
   /** En orden; se muestran las válidas. */
   groups: readonly StackGroup[]
 }
@@ -155,6 +167,8 @@ export interface Language {
 export interface EducationContent {
   /** Texto del h2. */
   title: string
+  /** Etiqueta decorativa tipo archivo sobre el título (feature 008). */
+  file?: string
   degreesLabel: string
   languagesLabel: string
   /** Fin de un título en curso. */

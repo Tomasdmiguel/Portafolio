@@ -19,7 +19,7 @@ export function About({ about }: AboutProps) {
       aria-labelledby="sobre-mi-title"
       className="mx-auto flex min-h-svh w-full max-w-6xl flex-col justify-center gap-8 px-4 py-16 md:px-8 short:py-8"
     >
-      <SectionTitle id="sobre-mi-title">{about.title}</SectionTitle>
+      <SectionTitle id="sobre-mi-title" file={about.file}>{about.title}</SectionTitle>
 
       {/* DOM: datos y después párrafos (resumen primero). Desde md:, los datos van a la derecha (R4). */}
       <div className="flex flex-col gap-10 md:grid md:grid-cols-3 md:gap-12">

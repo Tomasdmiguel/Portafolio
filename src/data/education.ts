@@ -3,6 +3,7 @@ import type { EducationContent } from '../types/content.ts'
 /** Contenido de "Formación" (spec 005, Assumptions; del CV). Las certificaciones van en `certifications.ts`. */
 export const education: EducationContent = {
   title: 'Formación',
+  file: 'formacion.md',
   degreesLabel: 'Título',
   languagesLabel: 'Idiomas',
   presentLabel: 'En curso',

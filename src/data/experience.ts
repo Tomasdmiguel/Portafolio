@@ -3,6 +3,7 @@ import type { ExperienceContent } from '../types/content.ts'
 /** Contenido de "Experiencia" (spec 003, Assumptions; resumido del CV). Para editar la sección, se cambia solo este archivo. */
 export const experience: ExperienceContent = {
   title: 'Experiencia',
+  file: 'experiencia.log',
   currentLabel: 'Actual',
   presentLabel: 'Actualidad',
   techLabel: 'Tecnologías',
