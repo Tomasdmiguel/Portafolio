@@ -31,12 +31,18 @@ formato válido y `end` (si existe) es válido y no anterior a `start`.
 | `title` | `string` | texto del h2, no vacío |
 | `currentLabel` | `string` | "Actual" (texto visible del marcador) |
 | `presentLabel` | `string` | "Actualidad" (fin del período abierto) |
+| `techLabel` | `string` | "Tecnologías" (nombre accesible de la lista de etiquetas) |
 | `items` | `readonly Experience[]` | se muestran los válidos, ordenados por `start` descendente |
 
 ## Section
 
 Se agrega `{ id: 'experiencia', label: 'Experiencia', hasContent: hasExperienceContent(experience) }`
 después de `sobre-mi` en `sections.ts`.
+
+## NavLabels
+
+`navLabels = { nav: 'Secciones', menu: 'Menú' }` en `src/data/sections.ts`: nombre accesible
+del `<nav>` y texto visible del botón del menú móvil (Principio II: sin texto en el componente).
 
 ## Estados
 

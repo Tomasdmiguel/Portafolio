@@ -40,7 +40,7 @@
   `radial-gradient` repetido con `--dot-cell`, sin arbitrary values en el JSX). Cada experiencia
   tiene un marcador cuadrado tipo píxel; el actual va en ámbar y con la etiqueta de texto "Actual".
   Animación: el título reusa `dot-assemble`; la línea se "dibuja" con `@utility timeline-draw`
-  (`scale-y` 0 → 1 desde arriba, `view()`, `entry 0% cover 50%`); cada bloque reusa `reveal`.
+  (`clip-path: inset(0 0 100% 0)` → `inset(0)`, `view()`, `entry 0% cover 50%`); cada bloque reusa `reveal`.
   Todo dentro de `@supports (animation-timeline: view())` y con `motion-safe:`.
 - **Rationale**: misma familia visual que el Hero y "Sobre mí"; la línea comunica "trayectoria"
   aunque hoy haya un solo puesto, y escala a más sin cambiar el diseño.

@@ -40,8 +40,8 @@ separado.
 
 ### Tipos y contenido
 
-- [ ] T002 Agregar en `src/types/content.ts`, con JSDoc en español: `type YearMonth = \`${number}-${number}\``; `Highlight { lead?: string; text: string }`; `Experience { role: string; company: string; industry?: string; start: YearMonth; end?: YearMonth; modality: string; summary?: string; highlights: readonly Highlight[]; tech: readonly string[] }` ("sin `end` = puesto actual"); `ExperienceContent { title: string; currentLabel: string; presentLabel: string; items: readonly Experience[] }`
-- [ ] T003 Crear `src/data/experience.ts` que exporte `experience: ExperienceContent` con `title: 'Experiencia'`, `currentLabel: 'Actual'`, `presentLabel: 'Actualidad'` y un ítem: `role: 'Frontend Developer'`, `company: 'Seeker Parking'`, `industry: 'SaaS de estacionamiento inteligente'`, `start: '2024-09'`, sin `end`, `modality: 'Remoto'`, `summary: 'Construyo la nueva plataforma que reemplaza al sistema legacy, en un equipo ágil de 6 a 10 personas junto a backend, QA y producto.'`, `tech: ['React', 'TypeScript', 'Next.js', 'Vite', 'React Hook Form', 'Zod', 'APIs REST', 'Scrum']` y estos 4 `highlights`:
+- [ ] T002 Agregar en `src/types/content.ts`, con JSDoc en español: `type YearMonth = \`${number}-${number}\``; `Highlight { lead?: string; text: string }`; `Experience { role: string; company: string; industry?: string; start: YearMonth; end?: YearMonth; modality: string; summary?: string; highlights: readonly Highlight[]; tech: readonly string[] }` ("sin `end` = puesto actual"); `ExperienceContent { title: string; currentLabel: string; presentLabel: string; techLabel: string; items: readonly Experience[] }`; `NavLabels { nav: string; menu: string }`
+- [ ] T003 Crear `src/data/experience.ts` que exporte `experience: ExperienceContent` con `title: 'Experiencia'`, `currentLabel: 'Actual'`, `presentLabel: 'Actualidad'`, `techLabel: 'Tecnologías'` y un ítem: `role: 'Frontend Developer'`, `company: 'Seeker Parking'`, `industry: 'SaaS de estacionamiento inteligente'`, `start: '2024-09'`, sin `end`, `modality: 'Remoto'`, `summary: 'Construyo la nueva plataforma que reemplaza al sistema legacy, en un equipo ágil de 6 a 10 personas junto a backend, QA y producto.'`, `tech: ['React', 'TypeScript', 'Next.js', 'Vite', 'React Hook Form', 'Zod', 'APIs REST', 'Scrum']` y estos 4 `highlights`:
   1. `{ lead: '+20 pantallas', text: 'del panel administrativo y la app para clientes de la nueva plataforma.' }`
   2. `{ lead: 'Registro y compra', text: '(checkout) con formularios validados e integración de APIs REST.' }`
   3. `{ lead: 'Componentes reutilizables:', text: 'tablas de datos, skeletons, selects con autocompletado y recorte de imágenes.' }`
@@ -56,7 +56,7 @@ separado.
   - `getValidExperiences` descarta las inválidas, ordena por `start` descendente, descarta logros con `text` vacío y tecnologías vacías, y deja como máximo 4 logros
   - `hasExperienceContent` es `false` con `items: []` o solo inválidas
   - `validateExperience(experience)` del contenido real devuelve `[]`
-  - `validateExperience` reporta `experience.title`, `experience.items` ("debe tener al menos 1 experiencia válida"), `experience.items[i].role` / `.company` / `.modality` ("no puede estar vacío"), `experience.items[i].start` / `.end` ("debe tener formato YYYY-MM"), `experience.items[i].end` ("no puede ser anterior al inicio"), `experience.items[i].highlights[j].text` ("no puede estar vacío"), `experience.items[i].highlights[j]` ("debe tener hasta 20 palabras", contando `lead` + `text`) y `experience.items[i].highlights` ("se muestran hasta 4 logros") si hay más de 4
+  - `validateExperience` reporta `experience.title`, `experience.techLabel`, `experience.items` ("debe tener al menos 1 experiencia válida"), `experience.items[i].role` / `.company` / `.modality` ("no puede estar vacío"), `experience.items[i].start` / `.end` ("debe tener formato YYYY-MM"), `experience.items[i].end` ("no puede ser anterior al inicio"), `experience.items[i].highlights[j].text` ("no puede estar vacío"), `experience.items[i].highlights[j]` ("debe tener hasta 20 palabras", contando `lead` + `text`) y `experience.items[i].highlights` ("se muestran hasta 4 logros") si hay más de 4
 - [ ] T005 Implementar en `src/lib/validateContent.ts` (sección `// ---- Experiencia (feature 003) ----`): `isValidYearMonth(value: string): boolean` (`/^\d{4}-(0[1-9]|1[0-2])$/`), `formatMonth(value: YearMonth): string` con la constante `MONTHS_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']` (R2), `isValidExperience`, `getValidExperiences`, `hasExperienceContent` y `validateExperience`; las comparaciones de fecha se hacen como strings `YYYY-MM`; `npm test` en verde
 
 **Checkpoint**: tipos, data y validación listos; el sitio se ve igual que en producción.
@@ -72,7 +72,7 @@ empresa, rubro, "Sep 2024 – Actualidad", "Remoto", contexto, 4 logros y las et
 `items: []` la sección no aparece.
 
 - [ ] T006 [P] [US1] Crear `src/components/ui/Tag.tsx` (`{ children: ReactNode }`): `<span>` en Geist Mono `text-xs`, `border border-border`, `px-2 py-1`, texto `text-muted` con contraste AA (R6)
-- [ ] T007 [US1] Crear `src/components/sections/ExperienceItem.tsx` (`{ item: Experience; currentLabel: string; presentLabel: string }`): `<article>` con `<h3>` (puesto), empresa y rubro, `<p>` con `<time dateTime={item.start}>{formatMonth(item.start)}</time> – ` seguido de `<time dateTime={item.end}>` o `presentLabel`, y la modalidad; `summary` si existe; `<ul>` de logros con `<strong className="text-accent">{lead}</strong> {text}`; `<ul aria-label="Tecnologías">` con un `Tag` por tecnología (`flex flex-wrap gap-2`); si no hay `end`, mostrar `currentLabel` como texto visible junto al período; sin texto hardcodeado; ≤ 150 líneas (R5)
+- [ ] T007 [US1] Crear `src/components/sections/ExperienceItem.tsx` (`{ item: Experience; currentLabel: string; presentLabel: string; techLabel: string }`): `<article>` con `<h3>` (puesto), empresa y rubro, `<p>` con `<time dateTime={item.start}>{formatMonth(item.start)}</time> – ` seguido de `<time dateTime={item.end}>` o `presentLabel`, y la modalidad; `summary` si existe; `<ul>` de logros con `<strong className="text-accent">{lead}</strong> {text}`; `<ul aria-label={techLabel}>` con un `Tag` por tecnología (`flex flex-wrap gap-2`); si no hay `end`, mostrar `currentLabel` como texto visible junto al período; sin texto hardcodeado; ≤ 150 líneas (R5)
 - [ ] T008 [US1] Crear `src/components/sections/Experience.tsx` (`{ experience: ExperienceContent }`): `null` si `!hasExperienceContent(experience)`; si no, `<section id="experiencia" aria-labelledby="experiencia-title">` con `mx-auto w-full max-w-6xl px-4 py-16 md:px-8` (sin `min-h-svh`, R7), `SectionTitle` y un `<ol>` de `getValidExperiences(experience)` con un `ExperienceItem` por `<li>`; ≤ 150 líneas
 - [ ] T009 [US1] Montar `<ErrorBoundary name="Experiencia"><Experience experience={experience} /></ErrorBoundary>` dentro de `<main>`, después de "Sobre mí", y sumar `validateExperience(experience)` a los avisos de DEV en `src/App.tsx` (FR-012, FR-013)
 - [ ] T010 [US1] Verificar quickstart §2 (contenido y layout en 360×740, 768×1024, 1280×800, 740×360 y zoom 200%) y §5 (`items: []`, `end` anterior al inicio, logro vacío y `throw` en `Experience`)
@@ -93,7 +93,7 @@ la mitad de la pantalla; con "reducir movimiento" o en Firefox todo se ve quieto
 - [ ] T013 [US2] En `src/components/sections/Experience.tsx`: el `<ol>` con `relative` y un elemento decorativo `aria-hidden="true"` con `dot-line motion-safe:timeline-draw` a la izquierda; cada `<li>` con padding izquierdo para dejar lugar a la línea
 - [ ] T014 [US2] En `src/components/sections/ExperienceItem.tsx`: marcador cuadrado tipo píxel (`size-3`, `aria-hidden="true"`) sobre la línea, `bg-accent` si no hay `end` y `bg-border` si lo hay; `currentLabel` con `text-accent` y Geist Mono en mayúsculas; `motion-safe:reveal` en el `<article>` (FR-009, FR-010)
 - [ ] T015 [US2] Layout desde `md:` en `src/components/sections/ExperienceItem.tsx`: grilla de 3 columnas con período, modalidad y marcador "Actual" en la primera y puesto, contexto, logros y etiquetas en las otras dos (`md:col-span-2`), mismo ritmo que "Sobre mí"; en móvil apilado
-- [ ] T016 [US2] Verificar quickstart §4 en Chrome, con movimiento reducido y en Firefox; revisar en 360 px que la línea y el marcador no generan scroll horizontal
+- [ ] T016 [US2] Verificar quickstart §4 en Chrome, con movimiento reducido y en Firefox; revisar en 360 px que la línea y el marcador no generan scroll horizontal y que la línea termina de dibujarse antes de que el texto de la experiencia pase la mitad de la pantalla (si no, cambiar el rango de `timeline-draw` a `entry 0% entry 100%`)
 
 **Checkpoint**: US1 y US2 funcionan juntas.
 
@@ -107,8 +107,8 @@ la mitad de la pantalla; con "reducir movimiento" o en Firefox todo se ve quieto
 Escape y tocando fuera; en 768 px los links van en línea; `/#experiencia` abre en la sección.
 
 - [ ] T017 [US3] Agregar `{ id: 'experiencia', label: 'Experiencia', hasContent: hasExperienceContent(experience) }` después de `sobre-mi` en `src/data/sections.ts`
-- [ ] T018 [US3] Agregar `menuLabel: 'Menú'` al contenido que recibe el header (en `src/data/site.ts` y en el tipo `SiteMeta` de `src/types/content.ts`) y pasarlo como prop `menuLabel` a `SiteHeader` desde `src/App.tsx`, para no hardcodear texto (Principio II)
-- [ ] T019 [US3] Reescribir la navegación de `src/components/SiteHeader.tsx` (R1): en `< md`, un `<button popovertarget="site-nav" aria-label` = `menuLabel`, con `min-h-11 min-w-11` y foco visible, y la lista dentro de `<nav id="site-nav" popover="auto" aria-label="Secciones">` posicionada bajo el header (`inset-auto top-15 right-4`, `bg-surface`, `border-border`); un `onClick` en cada link llama a `document.getElementById('site-nav')?.hidePopover()`; desde `md:` el botón se oculta y la lista se muestra en línea (`md:static md:block` con el popover forzado visible vía clases del nav); el header mantiene `h-15`; ≤ 150 líneas. Si React 19 no tipa `popover`/`popovertarget`, usar las props `popover` y `popoverTarget` que sí tipa
+- [ ] T018 [US3] Exportar `navLabels: NavLabels = { nav: 'Secciones', menu: 'Menú' }` desde `src/data/sections.ts` y pasarlo como prop `labels` a `SiteHeader` desde `src/App.tsx`; reemplazar el `aria-label="Secciones"` hardcodeado de `src/components/SiteHeader.tsx` por `labels.nav` (Principio II)
+- [ ] T019 [US3] Reescribir la navegación de `src/components/SiteHeader.tsx` (R1): en `< md`, un `<button popoverTarget="site-nav">` con `labels.menu` como texto visible (sin `aria-label`), `min-h-11 min-w-11`, foco visible y `md:hidden`; la lista dentro de `<nav id="site-nav" popover="auto" aria-label={labels.nav}>` (props de React 19: `popover`, `popoverTarget`) posicionada bajo el header (`inset-auto top-15 right-4 m-0`, `bg-surface`, `border border-border`, `p-2`); en `md:` se anulan los estilos del navegador para el popover cerrado con `md:static md:block md:border-0 md:bg-transparent md:p-0`, y la `<ul>` pasa de columna a fila (`flex flex-col md:flex-row`); un `onClick` en cada link llama a `document.getElementById('site-nav')?.hidePopover()`; el header mantiene `h-15`; ≤ 150 líneas
 - [ ] T020 [US3] Verificar quickstart §3 en 360 y 768 px, con mouse, teclado (Tab, Enter, Escape) y lector de pantalla; el Hero sigue ocupando la primera pantalla con el header (quickstart de la 001 §2)
 
 **Checkpoint**: las 3 historias funcionan.
@@ -141,7 +141,7 @@ Escape y tocando fuera; en 768 px los links van en línea; `/#experiencia` abre 
 - T004 (tests) antes de T005.
 - T006 antes de T007; T007 antes de T008; T008 antes de T009.
 - T011 y T012 antes de T013 y T014.
-- T017 y T018 antes de T019.
+- T017 y T018 antes de T019 (T018 también toca `SiteHeader.tsx`).
 
 ### Parallel Opportunities
 
@@ -156,7 +156,7 @@ Escape y tocando fuera; en 768 px los links van en línea; `/#experiencia` abre 
 ```bash
 # En paralelo:
 Task: "T011–T012 utilities dot-line y timeline-draw en src/index.css"
-Task: "T017–T019 navegación en src/data/sections.ts, src/data/site.ts y src/components/SiteHeader.tsx"
+Task: "T017–T019 navegación en src/data/sections.ts, src/App.tsx y src/components/SiteHeader.tsx"
 ```
 
 ---

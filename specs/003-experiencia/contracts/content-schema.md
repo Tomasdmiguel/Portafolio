@@ -29,7 +29,13 @@ export interface ExperienceContent {
   title: string
   currentLabel: string
   presentLabel: string
+  techLabel: string
   items: readonly Experience[]
+}
+
+export interface NavLabels {
+  nav: string
+  menu: string
 }
 ```
 
@@ -49,13 +55,13 @@ export interface ExperienceContent {
 | Componente | Props | Comportamiento |
 |---|---|---|
 | `sections/Experience` | `{ experience: ExperienceContent }` | `<section id="experiencia" aria-labelledby>`; `null` sin experiencias válidas |
-| `sections/ExperienceItem` | `{ item: Experience; currentLabel: string; presentLabel: string }` | `<article>` con h3, período, logros y etiquetas |
+| `sections/ExperienceItem` | `{ item: Experience; currentLabel: string; presentLabel: string; techLabel: string }` | `<article>` con h3, período, logros y etiquetas |
 | `ui/Tag` | `{ children: ReactNode }` | etiqueta Geist Mono con borde |
-| `SiteHeader` | sin cambios de props | `< md`: botón "Menú" + lista en `popover`; `md:` lista en línea |
+| `SiteHeader` | `+ labels: NavLabels` | `< md`: botón con `labels.menu` visible + lista en `popover`; `md:` lista en línea; `<nav aria-label={labels.nav}>` |
 
 ## Utilities CSS nuevas (`src/index.css`)
 
 | Utility | Qué hace |
 |---|---|
 | `dot-line` | línea vertical de puntos (`radial-gradient` con `--dot-cell`) |
-| `timeline-draw` | `scale-y` 0 → 1 desde arriba con `view()`, dentro de `@supports` |
+| `timeline-draw` | `clip-path` de arriba hacia abajo con `view()`, dentro de `@supports` (no deforma los puntos) |

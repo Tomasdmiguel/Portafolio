@@ -80,8 +80,8 @@ posiciona en la sección.
 ### Edge Cases
 
 - **Sin experiencias válidas**: la sección y su link no se muestran.
-- **Experiencia incompleta**: sin puesto, empresa o fecha de inicio, la experiencia no se
-  muestra; un logro o una etiqueta vacía no se muestran.
+- **Experiencia incompleta**: sin puesto, empresa, modalidad o fecha de inicio, la experiencia
+  no se muestra; un logro o una etiqueta vacía no se muestran.
 - **Varias experiencias**: se muestran de la más reciente a la más antigua sobre la misma línea
   de tiempo (hoy hay una; el modelo admite más).
 - **Error en la sección**: si "Experiencia" falla, el resto del sitio sigue funcionando.
@@ -117,7 +117,7 @@ posiciona en la sección.
 - **FR-011**: La sección MUST verse completa, sin scroll horizontal, en 360px, 768px, 1280px,
   móvil horizontal y zoom 200%.
 - **FR-012**: Si la sección falla al mostrarse, el resto del sitio MUST seguir funcionando.
-- **FR-013**: En desarrollo, el contenido inválido (experiencia sin puesto, empresa o inicio;
+- **FR-013**: En desarrollo, el contenido inválido (experiencia sin puesto, empresa, modalidad o inicio;
   logro vacío; fecha de fin anterior a la de inicio) MUST generar un aviso en la consola; en
   producción se oculta sin romper la página.
 

@@ -83,16 +83,16 @@ specs/003-experiencia/
 src/
 ├── App.tsx                      # + <Experience> con ErrorBoundary; validateExperience en DEV
 ├── index.css                    # + dot-line, timeline-draw
-├── types/content.ts             # + YearMonth, Highlight, Experience, ExperienceContent
+├── types/content.ts             # + YearMonth, Highlight, Experience, ExperienceContent, NavLabels
 ├── data/
 │   ├── experience.ts            # NUEVO: Seeker Parking
-│   └── sections.ts              # + 'experiencia' con hasContent calculado
+│   └── sections.ts              # + 'experiencia' con hasContent calculado; + navLabels
 ├── lib/
 │   ├── validateContent.ts       # + isValidYearMonth, formatMonth, isValidExperience,
 │   │                            #   getValidExperiences, hasExperienceContent, validateExperience
 │   └── validateContent.test.ts
 └── components/
-    ├── SiteHeader.tsx           # menú popover en < md
+    ├── SiteHeader.tsx           # menú popover en < md; prop labels (sin texto hardcodeado)
     ├── sections/
     │   ├── Experience.tsx       # NUEVO: sección + línea de tiempo
     │   └── ExperienceItem.tsx   # NUEVO: una experiencia
