@@ -11,16 +11,12 @@ Secciones, en este orden:
 
 1. **Hero**
 2. **Sobre mí**
-3. **Cómo trabajo**: AI-Driven + Spec-Driven Development (el diferencial del perfil).
-4. **Experiencia**
-5. **Proyectos**
-6. **Stack**
-7. **Formación y certificaciones**: título técnico, certificaciones de Platzi agrupadas por
+3. **Experiencia**
+4. **Stack**: las skills técnicas agrupadas por categoría; el desarrollo con IA (AI-Driven
+   Development) es una skill más dentro del stack, no una sección aparte.
+5. **Formación y certificaciones**: título técnico, certificaciones de Platzi agrupadas por
    categoría (IA, Inglés, Frontend, Backend) e idiomas.
-8. **Contacto**
-
-La sección **Proyectos** se muestra porque `projects.ts` tiene contenido (Niddo). Si en algún
-momento `projects.ts` queda vacío, la sección NO se renderiza.
+6. **Contacto**
 
 ## Core Principles
 
@@ -41,7 +37,7 @@ defecto, no un adorno.
 
 ### II. Contenido real y separado del código (NO NEGOCIABLE)
 
-- La experiencia, los proyectos, la formación y las certificaciones son reales y verificables.
+- La experiencia, el stack, la formación y las certificaciones son reales y verificables.
   MUST NOT inventarse contenido.
 - Cada certificado tiene: título, categoría, fecha y URL de verificación de Platzi.
 - Categorías de certificaciones cerradas: `'ai'`, `'english'`, `'frontend'`, `'backend'`.
@@ -88,7 +84,7 @@ ellos contradice lo que intenta demostrar.
   con listas vacías.
 - **Imágenes**: tienen `width`/`height` para evitar CLS y un fallback visual si fallan al cargar.
 - **Links externos**: `target="_blank"` con `rel="noopener noreferrer"`. Antes de cada deploy a
-  producción se verifica que los links de LinkedIn, GitHub, CV, proyectos y certificados
+  producción se verifica que los links de LinkedIn, GitHub, CV y certificados
   respondan.
 - **Error Boundary**: un componente `ErrorBoundary` envuelve cada sección; si una falla, el resto
   del portafolio sigue funcionando.
@@ -140,13 +136,13 @@ garantizado en cualquier navegador.
 ```text
 src/
 ├── components/
-│   ├── sections/   → una sección por archivo (Hero.tsx, About.tsx, HowIWork.tsx,
-│   │                 Experience.tsx, Projects.tsx, Stack.tsx, Education.tsx, Contact.tsx)
+│   ├── sections/   → una sección por archivo (Hero.tsx, About.tsx,
+│   │                 Experience.tsx, Stack.tsx, Education.tsx, Contact.tsx)
 │   ├── ui/         → componentes reutilizables sin contenido propio (Button.tsx, Tag.tsx,
 │   │                 Card.tsx, SectionTitle.tsx)
 │   └── ErrorBoundary.tsx
-├── data/           → profile.ts, contactLinks.ts, about.ts, howIWork.ts, experience.ts,
-│                     projects.ts, stack.ts, education.ts, certifications.ts, más
+├── data/           → profile.ts, contactLinks.ts, about.ts, experience.ts,
+│                     stack.ts, education.ts, certifications.ts, más
 │                     site.ts (meta del sitio) y sections.ts (registro de la navegación)
 ├── types/          → content.ts (tipos de todas las entidades de data)
 ├── lib/            → funciones puras (validación de la data) y sus tests (`*.test.ts`,
@@ -189,4 +185,4 @@ Reglas:
 - Cada `plan.md` incluye un "Constitution Check" contra los principios I–VI; toda excepción se
   justifica explícitamente allí.
 
-**Version**: 1.1.1 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-19
+**Version**: 1.2.0 | **Ratified**: 2026-11-10 | **Last Amended**: 2026-11-24
