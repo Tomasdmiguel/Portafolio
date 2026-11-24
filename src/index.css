@@ -217,3 +217,34 @@
     animation-range: entry 0% entry 100%;
   }
 }
+
+/* ---- Línea de tiempo de "Experiencia" (feature 003, research R4) ---- */
+
+/* Línea vertical de puntos centrada en el elemento (w-3). Decorativa. */
+@utility dot-line {
+  background-image: radial-gradient(
+    circle,
+    var(--color-muted) var(--dot-r-rest),
+    transparent calc(var(--dot-r-rest) + 0.5px)
+  );
+  background-size: 100% var(--dot-cell);
+  background-repeat: repeat-y;
+}
+
+/* Se "dibuja" de arriba hacia abajo; clip-path no deforma los puntos (plan, Riesgos). */
+@keyframes timeline-draw {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@utility timeline-draw {
+  @supports (animation-timeline: view()) {
+    animation: timeline-draw linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+  }
+}

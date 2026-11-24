@@ -1,11 +1,20 @@
-import type { Section } from '../types/content.ts'
+import type { NavLabels, Section } from '../types/content.ts'
 
 interface SiteHeaderProps {
   brand: string
   sections: readonly Section[]
+  labels: NavLabels
 }
 
-export function SiteHeader({ brand, sections }: SiteHeaderProps) {
+const NAV_ID = 'site-nav'
+
+/** Al navegar desde el menú móvil, se cierra (en md: no está abierto y no hace nada). */
+function closeMenu() {
+  const nav = document.getElementById(NAV_ID)
+  if (nav?.matches(':popover-open')) nav.hidePopover()
+}
+
+export function SiteHeader({ brand, sections, labels }: SiteHeaderProps) {
   // Todas las secciones con contenido, incluida "Inicio"; con una sola no hace falta navegar (002 R2).
   const navItems = sections.filter((section) => section.hasContent)
   const showNav = navItems.length >= 2
@@ -19,20 +28,37 @@ export function SiteHeader({ brand, sections }: SiteHeaderProps) {
         {brand}
       </a>
       {showNav && (
-        <nav aria-label="Secciones">
-          <ul className="flex flex-wrap gap-1">
-            {navItems.map((section) => (
-              <li key={section.id}>
-                <a
-                  href={`#${section.id}`}
-                  className="inline-flex min-h-11 items-center px-3 text-sm text-muted transition-colors hover:text-accent"
-                >
-                  {section.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <>
+          {/* < md: menú compacto con popover nativo (003 R1). */}
+          <button
+            type="button"
+            popoverTarget={NAV_ID}
+            className="inline-flex min-h-11 min-w-11 items-center justify-center border border-border px-3 text-sm text-fg transition-colors hover:text-accent md:hidden"
+          >
+            {labels.menu}
+          </button>
+          {/* md:: se anulan los estilos del navegador para el popover cerrado y la lista va en línea. */}
+          <nav
+            id={NAV_ID}
+            popover="auto"
+            aria-label={labels.nav}
+            className="inset-auto top-15 right-4 m-0 border border-border bg-surface p-2 text-fg md:static md:block md:border-0 md:bg-transparent md:p-0"
+          >
+            <ul className="flex flex-col md:flex-row md:flex-wrap md:gap-1">
+              {navItems.map((section) => (
+                <li key={section.id}>
+                  <a
+                    href={`#${section.id}`}
+                    onClick={closeMenu}
+                    className="inline-flex min-h-11 w-full items-center px-3 text-sm text-muted transition-colors hover:text-accent"
+                  >
+                    {section.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </>
       )}
     </header>
   )
