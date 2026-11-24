@@ -50,7 +50,8 @@ description: "Lista de tareas de la feature 005 (Formación)"
 - [X] T016 [P] `README.md`: fila "Formación | `src/data/education.ts` y `src/data/certifications.ts`" y cómo agregar un certificado
 - [ ] T017 Lint, build, tests; Lighthouse ≥ 90 sobre el preview (Tomás, DevTools)
 - [ ] T018 Tomás commitea, abre el PR y mergea sin squash; `npm run check:links` en producción
-- [ ] T019 Tomás pasa las certificaciones de Platzi y se cargan en `certifications.ts` (fuera de esta feature si llega después del merge)
+- [X] T019 Cargar en `certifications.ts` los 32 certificados del perfil de Platzi (rama `006-certificaciones`, después del merge de la 005)
+- [X] T020 Clarificación 2026-11-24: 5 más recientes por categoría + `<details>` "Ver los N"; total y link al perfil en la cabecera del bloque (`CertificationsContent` suma `previewCount`, `countLabel`, `showAllLabel`, `profile`); `check:links` incluye el perfil y trata el 403 de Platzi como aviso
 
 ## Análisis (2026-11-24)
 

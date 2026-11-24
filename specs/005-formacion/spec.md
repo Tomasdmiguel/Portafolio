@@ -6,6 +6,17 @@
 
 **Status**: Draft
 
+## Clarifications
+
+### Session 2026-11-24 (después del merge, al cargar los certificados reales)
+
+- Q: Con 32 certificados la tarjeta queda más alta que la pantalla, ¿cómo se muestran? → A: los 5
+  más recientes por categoría y un desplegable "Ver los N" con el resto; arriba, la cantidad total
+  de cursos aprobados y un link al perfil de Platzi.
+- Q: ¿Se incluyen los certificados de IA con marca ("Curso de Claude Code", "Curso de Codex")? →
+  A: sí; son certificados reales y verificables (la regla de no nombrar marcas de IA aplica al
+  Stack).
+
 **Input**: User description: "Sección Formación y certificaciones, debajo de Stack: título técnico,
 certificaciones de Platzi agrupadas por categoría (IA, Inglés, Frontend, Backend) e idiomas.
 Contenido del CV. Las certificaciones se cargan cuando Tomás pase la lista; hasta entonces, la
@@ -119,7 +130,9 @@ La navegación suma "Formación".
   opcional de cada idioma, con la relación idioma–nivel expuesta a tecnologías de asistencia.
 - **FR-004**: Si hay certificaciones válidas, la sección MUST mostrar un bloque "Certificaciones"
   agrupado por categoría en el orden IA, Inglés, Frontend, Backend (solo grupos con ítems), cada
-  ítem con título, fecha ("Mes Año") y link de verificación.
+  ítem con título, fecha ("Mes Año") y link de verificación. Por categoría se ven los 5 más
+  recientes; el resto queda en un desplegable "Ver los N" operable con teclado y sin JS. Arriba del
+  bloque, la cantidad total de certificaciones válidas y un link al perfil público (pestaña nueva).
 - **FR-005**: Los links de certificaciones MUST abrir en una pestaña nueva con
   `noopener noreferrer` y anunciar a tecnologías de asistencia que abren en una pestaña nueva.
 - **FR-006**: Las categorías de certificaciones MUST ser solo `ai`, `english`, `frontend` y
@@ -166,8 +179,8 @@ La navegación suma "Formación".
   - Título: Técnico Superior en Programación · E.E.S.T. N.º 2 "Felipe Senillosa" · Tandil ·
     2015 – 2022.
   - Idiomas: Español — Nativo; Inglés — Básico (lectura de documentación técnica).
-- **Certificaciones**: la lista arranca vacía porque Tomás todavía no pasó los certificados de
-  Platzi (Principio II: no se inventan). Se cargan editando solo el archivo de certificaciones; el
-  bloque aparece solo.
+- **Certificaciones**: 32 cursos aprobados del perfil público de Platzi (leído el 2026-11-24),
+  clasificados en las 4 categorías: IA 2, Inglés 6, Frontend 22, Backend 2. Platzi responde 403 a
+  clientes automáticos; `check:links` lo marca para verificar a mano, como LinkedIn.
 - **Nivel de idioma como texto**: sin barras ni porcentajes (mismo criterio que Stack).
 - **Fuera de alcance**: Contacto y la versión en inglés.
