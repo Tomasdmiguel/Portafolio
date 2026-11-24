@@ -2,12 +2,16 @@
 import type {
   About,
   ContactLink,
+  Experience,
+  ExperienceContent,
+  Highlight,
   Profile,
   QuickFact,
   Resume,
   Section,
   SiteMeta,
   ValidationIssue,
+  YearMonth,
 } from '../types/content.ts'
 
 const isBlank = (value: string): boolean => value.trim() === ''
@@ -141,6 +145,90 @@ export function validateAbout(about: About): ValidationIssue[] {
   about.facts.forEach((fact, i) => {
     if (isBlank(fact.label)) add(`facts[${i}].label`, 'no puede estar vacío')
     if (isBlank(fact.value)) add(`facts[${i}].value`, 'no puede estar vacío')
+  })
+
+  return issues
+}
+
+// ---- Experiencia (feature 003) ----
+
+const YEAR_MONTH = /^\d{4}-(0[1-9]|1[0-2])$/
+const MONTHS_ES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+const MAX_HIGHLIGHTS = 4
+const MAX_HIGHLIGHT_WORDS = 20
+
+export function isValidYearMonth(value: string): boolean {
+  return YEAR_MONTH.test(value)
+}
+
+/** `'2024-09'` → `'Sep 2024'` (formato fijo, sin depender de Intl; research R2). */
+export function formatMonth(value: YearMonth): string {
+  const [year, month] = value.split('-')
+  return `${MONTHS_ES[Number(month) - 1]} ${year}`
+}
+
+const isValidHighlight = (highlight: Highlight): boolean => !isBlank(highlight.text)
+
+const countWords = (highlight: Highlight): number =>
+  `${highlight.lead ?? ''} ${highlight.text}`.trim().split(/\s+/).length
+
+export function isValidExperience(item: Experience): boolean {
+  if (isBlank(item.role) || isBlank(item.company) || isBlank(item.modality)) return false
+  if (!isValidYearMonth(item.start)) return false
+  if (item.end === undefined) return true
+  // Con formato YYYY-MM, la comparación de strings sigue el orden cronológico.
+  return isValidYearMonth(item.end) && item.end >= item.start
+}
+
+/** Válidas, de la más reciente a la más antigua, con hasta 4 logros y sin tecnologías vacías. */
+export function getValidExperiences(content: ExperienceContent): Experience[] {
+  return content.items
+    .filter(isValidExperience)
+    .map((item) => ({
+      ...item,
+      highlights: item.highlights.filter(isValidHighlight).slice(0, MAX_HIGHLIGHTS),
+      tech: item.tech.filter((tech) => !isBlank(tech)),
+    }))
+    .sort((a, b) => (a.start < b.start ? 1 : a.start > b.start ? -1 : 0))
+}
+
+/** Sin experiencias válidas, no se muestran ni la sección ni su link (FR-007). */
+export function hasExperienceContent(content: ExperienceContent): boolean {
+  return content.items.some(isValidExperience)
+}
+
+export function validateExperience(content: ExperienceContent): ValidationIssue[] {
+  const issues: ValidationIssue[] = []
+  const add = (path: string, message: string) => issues.push({ path: `experience.${path}`, message })
+
+  for (const key of ['title', 'currentLabel', 'presentLabel', 'techLabel'] as const) {
+    if (isBlank(content[key])) add(key, 'no puede estar vacío')
+  }
+  if (!hasExperienceContent(content)) add('items', 'debe tener al menos 1 experiencia válida')
+
+  content.items.forEach((item, i) => {
+    const at = `items[${i}]`
+    for (const key of ['role', 'company', 'modality'] as const) {
+      if (isBlank(item[key])) add(`${at}.${key}`, 'no puede estar vacío')
+    }
+    const startOk = isValidYearMonth(item.start)
+    if (!startOk) add(`${at}.start`, 'debe tener formato YYYY-MM')
+    if (item.end !== undefined) {
+      if (!isValidYearMonth(item.end)) add(`${at}.end`, 'debe tener formato YYYY-MM')
+      else if (startOk && item.end < item.start) add(`${at}.end`, 'no puede ser anterior al inicio')
+    }
+    if (item.highlights.filter(isValidHighlight).length > MAX_HIGHLIGHTS) {
+      add(`${at}.highlights`, `se muestran hasta ${MAX_HIGHLIGHTS} logros`)
+    }
+    item.highlights.forEach((highlight, j) => {
+      if (!isValidHighlight(highlight)) add(`${at}.highlights[${j}].text`, 'no puede estar vacío')
+      else if (countWords(highlight) > MAX_HIGHLIGHT_WORDS) {
+        add(`${at}.highlights[${j}]`, `debe tener hasta ${MAX_HIGHLIGHT_WORDS} palabras`)
+      }
+    })
+    item.tech.forEach((tech, j) => {
+      if (isBlank(tech)) add(`${at}.tech[${j}]`, 'no puede estar vacío')
+    })
   })
 
   return issues

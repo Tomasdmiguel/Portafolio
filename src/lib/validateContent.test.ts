@@ -1,8 +1,23 @@
 import assert from 'node:assert/strict'
 import { describe, test } from 'node:test'
 import { about } from '../data/about.ts'
-import type { About, ContactLink, Profile, Section, SiteMeta } from '../types/content.ts'
+import { experience } from '../data/experience.ts'
+import type {
+  About,
+  ContactLink,
+  Experience,
+  ExperienceContent,
+  Profile,
+  Section,
+  SiteMeta,
+} from '../types/content.ts'
 import {
+  formatMonth,
+  getValidExperiences,
+  hasExperienceContent,
+  isValidExperience,
+  isValidYearMonth,
+  validateExperience,
   getValidFacts,
   getValidParagraphs,
   hasAboutContent,
@@ -170,5 +185,119 @@ describe('about', () => {
   test('sin párrafos con texto pide al menos uno', () => {
     const issues = validateAbout({ ...base, paragraphs: [] })
     assert.deepEqual(issues, [{ path: 'about.paragraphs', message: 'debe tener al menos 1 párrafo' }])
+  })
+})
+
+describe('Experiencia (feature 003)', () => {
+  const job: Experience = {
+    role: 'Frontend Developer',
+    company: 'Acme',
+    start: '2024-09',
+    modality: 'Remoto',
+    highlights: [{ text: 'Hice cosas.' }],
+    tech: ['React'],
+  }
+  const content: ExperienceContent = {
+    title: 'Experiencia',
+    currentLabel: 'Actual',
+    presentLabel: 'Actualidad',
+    techLabel: 'Tecnologías',
+    items: [job],
+  }
+
+  test('isValidYearMonth acepta YYYY-MM con mes 01–12', () => {
+    assert.equal(isValidYearMonth('2024-09'), true)
+    for (const value of ['2024-13', '2024-00', '2024-9', '24-09', '']) {
+      assert.equal(isValidYearMonth(value), false, value)
+    }
+  })
+
+  test('formatMonth usa meses abreviados en español', () => {
+    assert.equal(formatMonth('2024-09'), 'Sep 2024')
+    assert.equal(formatMonth('2025-01'), 'Ene 2025')
+  })
+
+  test('isValidExperience exige puesto, empresa, modalidad y fechas coherentes', () => {
+    assert.equal(isValidExperience(job), true)
+    assert.equal(isValidExperience({ ...job, end: '2024-09' }), true)
+    assert.equal(isValidExperience({ ...job, role: ' ' }), false)
+    assert.equal(isValidExperience({ ...job, company: '' }), false)
+    assert.equal(isValidExperience({ ...job, modality: '' }), false)
+    assert.equal(isValidExperience({ ...job, start: '2024-13' }), false)
+    assert.equal(isValidExperience({ ...job, end: '2024-1' as Experience['end'] }), false)
+    assert.equal(isValidExperience({ ...job, end: '2023-01' }), false)
+  })
+
+  test('getValidExperiences filtra, ordena por inicio descendente y limpia logros y tecnologías', () => {
+    const old: Experience = { ...job, company: 'Vieja', start: '2022-03', end: '2023-01' }
+    const invalid: Experience = { ...job, role: '' }
+    const messy: Experience = {
+      ...job,
+      start: '2025-02',
+      highlights: [{ text: 'a' }, { text: ' ' }, { text: 'b' }, { text: 'c' }, { text: 'd' }, { text: 'e' }],
+      tech: ['React', '', 'Zod'],
+    }
+    const result = getValidExperiences({ ...content, items: [old, invalid, messy, job] })
+    assert.deepEqual(
+      result.map((item) => item.start),
+      ['2025-02', '2024-09', '2022-03'],
+    )
+    const [first] = result
+    assert.ok(first)
+    assert.deepEqual(
+      first.highlights.map((h) => h.text),
+      ['a', 'b', 'c', 'd'],
+    )
+    assert.deepEqual(first.tech, ['React', 'Zod'])
+  })
+
+  test('hasExperienceContent es false sin experiencias válidas', () => {
+    assert.equal(hasExperienceContent({ ...content, items: [] }), false)
+    assert.equal(hasExperienceContent({ ...content, items: [{ ...job, company: '' }] }), false)
+    assert.equal(hasExperienceContent(content), true)
+  })
+
+  test('el contenido real no tiene avisos', () => {
+    assert.deepEqual(validateExperience(experience), [])
+  })
+
+  test('validateExperience reporta campos y fechas inválidos', () => {
+    const issues = validateExperience({
+      ...content,
+      title: '',
+      techLabel: ' ',
+      items: [
+        { ...job, role: '', company: '', modality: '', start: '2024-13', end: '2024-1' as Experience['end'] },
+        { ...job, end: '2023-01', highlights: [{ text: '' }] },
+      ],
+    })
+    assert.deepEqual(paths(issues), [
+      'experience.title',
+      'experience.techLabel',
+      'experience.items',
+      'experience.items[0].role',
+      'experience.items[0].company',
+      'experience.items[0].modality',
+      'experience.items[0].start',
+      'experience.items[0].end',
+      'experience.items[1].end',
+      'experience.items[1].highlights[0].text',
+    ])
+    const byPath = new Map(issues.map((issue) => [issue.path, issue.message]))
+    assert.equal(byPath.get('experience.items'), 'debe tener al menos 1 experiencia válida')
+    assert.equal(byPath.get('experience.items[0].start'), 'debe tener formato YYYY-MM')
+    assert.equal(byPath.get('experience.items[1].end'), 'no puede ser anterior al inicio')
+  })
+
+  test('validateExperience avisa logros largos y más de 4', () => {
+    const long = { lead: 'Uno dos', text: Array.from({ length: 19 }, () => 'palabra').join(' ') }
+    const issues = validateExperience({
+      ...content,
+      items: [{ ...job, highlights: [long, { text: 'a' }, { text: 'b' }, { text: 'c' }, { text: 'd' }] }],
+    })
+    assert.deepEqual(issues, [
+      { path: 'experience.items[0].highlights', message: 'se muestran hasta 4 logros' },
+      { path: 'experience.items[0].highlights[0]', message: 'debe tener hasta 20 palabras' },
+    ])
   })
 })
